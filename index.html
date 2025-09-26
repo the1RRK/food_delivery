@@ -1,17 +1,131 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf8">
-        <title> Прайм доставки еды</title>
-    </head>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery</title>
+    <!-- Подключаем шрифт с Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-weight: 500;
+        }
+        header nav a:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .hero-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .services-table th, .services-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .services-table th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
-    <body>
-        <h1> Самая лучшая доставка еды для тех кто в прайме</h1>
-        <p> header </p>
-        <p> footer </p>
-        <p> image </p>
-        <p> table </p>
-        <p> осталось гугл фронт </p>
-        <p> <a href="https://github.com/the1RRK/food_delivery"> гит репозиторий</a></p>
-    </body>
+<header>
+    <h1>Food Delivery Service</h1>
+    <nav>
+        <a href="#home">Главная</a>
+        <a href="#menu">Меню</a>
+        <a href="#about">О нас</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+</header>
+
+<div class="container">
+    <section id="home">
+        <h2>Добро пожаловать в наш сервис доставки еды!</h2>
+        <p>Мы предлагаем разнообразные блюда на любой вкус. Сделайте заказ и получите горячую еду прямо к двери!</p>
+        <img src="https://via.placeholder.com/1200x500" alt="Food Delivery" class="hero-image">
+    </section>
+
+    <section id="menu">
+        <h2>Наше Меню</h2>
+        <table class="services-table">
+            <thead>
+                <tr>
+                    <th>Блюдо</th>
+                    <th>Цена</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Пицца Маргарита</td>
+                    <td>500 руб</td>
+                    <td>Классическая пицца с томатами и моцареллой.</td>
+                </tr>
+                <tr>
+                    <td>Бургер с говядиной</td>
+                    <td>350 руб</td>
+                    <td>Сочное мясо, свежие овощи и сыр.</td>
+                </tr>
+                <tr>
+                    <td>Суши Ассорти</td>
+                    <td>800 руб</td>
+                    <td>Лучшие суши из свежайшей рыбы.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="about">
+        <h2>О нас</h2>
+        <p>Мы — команда профессионалов, работающая для того, чтобы ваш обед был вкусным и удобным. С нами можно заказать еду с доставкой на дом в любое время!</p>
+    </section>
+
+    <section id="contact">
+        <h2>Контакты</h2>
+        <p>Свяжитесь с нами по телефону: <strong>+7 (123) 456-78-90</strong></p>
+        <p>Адрес: <strong>г. Москва, ул. Примерная, д. 1</strong></p>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; 2025 Food Delivery Service. Все права защищены.</p>
+</footer>
+
+</body>
 </html>
