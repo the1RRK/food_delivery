@@ -1,0 +1,121 @@
+/* Стили для печати */
+@media print {
+    /* Скрываем ненужные элементы */
+    header nav,
+    .feedback-form button,
+    .login-container button,
+    .dish-card button,
+    footer p:last-child {
+        display: none !important;
+    }
+    
+    /* Базовые настройки */
+    body {
+        font-family: 'Times New Roman', serif;
+        font-size: 12pt;
+        line-height: 1.4;
+        color: #000;
+        background: white !important;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    /* Убираем фоновые изображения */
+    .form-body,
+    .login-body {
+        background: none !important;
+    }
+    
+    /* Контейнеры форм */
+    .form-container,
+    .login-container {
+        background: white !important;
+        box-shadow: none !important;
+        border: 1px solid #000;
+        width: 100% !important;
+        padding: 20px;
+    }
+    
+    /* Таблицы */
+    .services-table {
+        width: 100%;
+        border: 1px solid #000;
+    }
+    
+    .services-table th,
+    .services-table td {
+        border: 1px solid #000;
+        padding: 8px;
+    }
+    
+    .services-table th {
+        background-color: #f0f0f0 !important;
+        color: #000 !important;
+    }
+    
+    /* Карточки блюд */
+    .dish-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        filter: none !important;
+        margin-bottom: 15px;
+        break-inside: avoid;
+    }
+    
+    .dish-card img {
+        display: none;
+    }
+    
+    /* Заголовки */
+    h1, h2, h3 {
+        color: #000 !important;
+        page-break-after: avoid;
+    }
+    
+    /* Ссылки */
+    a {
+        color: #000 !important;
+        text-decoration: underline;
+    }
+    
+    /* Формы */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    textarea {
+        border: 1px solid #000 !important;
+        background: white !important;
+    }
+    
+    /* Убираем отступы и выравнивание */
+    .container,
+    .lunch-main {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Сетка для печати */
+    .dishes-grid {
+        display: block !important;
+    }
+    
+    /* Футер */
+    footer {
+        background: white !important;
+        color: #000 !important;
+        border-top: 1px solid #000;
+        margin-top: 20px;
+        position: static;
+    }
+    
+    /* Предотвращаем разрыв важных блоков */
+    section {
+        page-break-inside: avoid;
+    }
+    
+    /* Убираем hover эффекты */
+    .dish-card:hover {
+        border: 1px solid #000 !important;
+    }
+}

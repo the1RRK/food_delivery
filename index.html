@@ -6,6 +6,7 @@
     <title>Food Delivery</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
 
@@ -14,6 +15,7 @@
     <nav>
         <a href="#home">Главная</a>
         <a href="#menu">Меню</a>
+        <a href="lunch.html">Собрать ланч</a>
         <a href="#about">О нас</a>
         <a href="#contact">Контакты</a>
         <a href="contact.html">Обратная связь</a>
@@ -33,26 +35,65 @@
         <table class="services-table">
             <thead>
                 <tr>
+                    <th>Категория</th>
                     <th>Блюдо</th>
                     <th>Цена</th>
                     <th>Описание</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Супы -->
                 <tr>
-                    <td>Пицца Маргарита</td>
-                    <td>500 руб</td>
-                    <td>Классическая пицца с томатами и моцареллой.</td>
+                    <td rowspan="3" style="background-color: #f9f9f9; font-weight: bold; text-align: center;">Супы</td>
+                    <td>Томатный суп</td>
+                    <td>180 руб</td>
+                    <td>Ароматный томатный суп с свежими томатами и травами</td>
                 </tr>
                 <tr>
-                    <td>Бургер с говядиной</td>
+                    <td>Куриный суп с лапшой</td>
+                    <td>200 руб</td>
+                    <td>Наваристый куриный суп с домашней лапшой и овощами</td>
+                </tr>
+                <tr>
+                    <td>Грибной крем-суп</td>
+                    <td>220 руб</td>
+                    <td>Нежный крем-суп из свежих грибов со сливками</td>
+                </tr>
+                
+                <!-- Главные блюда -->
+                <tr>
+                    <td rowspan="3" style="background-color: #f9f9f9; font-weight: bold; text-align: center;">Главные блюда</td>
+                    <td>Паста Карбонара</td>
                     <td>350 руб</td>
-                    <td>Сочное мясо, свежие овощи и сыр.</td>
+                    <td>Классическая итальянская паста с беконом, сыром и соусом</td>
                 </tr>
                 <tr>
-                    <td>Суши Ассорти</td>
-                    <td>800 руб</td>
-                    <td>Лучшие суши из свежайшей рыбы.</td>
+                    <td>Куриные котлеты с пюре</td>
+                    <td>280 руб</td>
+                    <td>Нежные куриные котлеты с картофельным пюре и соусом</td>
+                </tr>
+                <tr>
+                    <td>Овощной рататуй с сыром</td>
+                    <td>320 руб</td>
+                    <td>Полезное овощное рагу с сырной корочкой</td>
+                </tr>
+                
+                <!-- Напитки -->
+                <tr>
+                    <td rowspan="3" style="background-color: #f9f9f9; font-weight: bold; text-align: center;">Напитки</td>
+                    <td>Апельсиновый сок</td>
+                    <td>120 руб</td>
+                    <td>Свежевыжатый апельсиновый сок, 300 мл</td>
+                </tr>
+                <tr>
+                    <td>Яблочный сок</td>
+                    <td>90 руб</td>
+                    <td>Натуральный яблочный сок, 300 мл</td>
+                </tr>
+                <tr>
+                    <td>Морковный сок</td>
+                    <td>110 руб</td>
+                    <td>Свежий морковный сок, 300 мл</td>
                 </tr>
             </tbody>
         </table>
@@ -61,12 +102,14 @@
     <section id="about">
         <h2>О нас</h2>
         <p>Мы — команда профессионалов, работающая для того, чтобы ваш обед был вкусным и удобным. С нами можно заказать еду с доставкой на дом в любое время!</p>
+        <p>Попробуйте нашу новую услугу "Собрать ланч" - выберите суп, главное блюдо и напиток по своему вкусу!</p>
     </section>
 
     <section id="contact">
         <h2>Контакты</h2>
         <p>Свяжитесь с нами по телефону: <strong>+7 (123) 456-78-90</strong></p>
         <p>Адрес: <strong>г. Москва, ул. Примерная, д. 1</strong></p>
+        <p>Время работы: <strong>ежедневно с 7:00 до 23:00</strong></p>
     </section>
 </div>
 

@@ -1,57 +1,91 @@
+/* Основные стили */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/*  HEADER & FOOTER  */
+/* HEADER & FOOTER */
 header {
     background-color: #333;
     color: white;
     padding: 20px;
     text-align: center;
 }
+
+header nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
 header nav a {
     color: white;
     text-decoration: none;
     padding: 10px 20px;
-    margin: 0 10px;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
+
 header nav a:hover {
     background-color: #555;
     border-radius: 5px;
 }
+
+/* Убрали выделение активной страницы цветом tomato */
+header nav a.active {
+    background-color: #555;
+    border-radius: 5px;
+}
+
 footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    padding: 20px 0;
+    margin-top: auto;
 }
 
-/*  MAIN PAGE */
+/* MAIN PAGE */
 .container {
     padding: 20px;
+    flex: 1;
 }
+
 .services-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
+
 .services-table th, .services-table td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
 }
+
 .services-table th {
     background-color: #333;
     color: white;
 }
 
-/*  FEEDBACK FORM PAGE  */
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+/* FEEDBACK FORM PAGE */
 .form-body {
     background: url('https://picsum.photos/1920/1080?blur=3') no-repeat center center fixed;
     background-size: cover;
@@ -61,7 +95,7 @@ footer {
 }
 
 .form-wrapper {
-    flex: 1; /* растягиваем по высоте */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -149,7 +183,7 @@ footer {
     background-color: #555;
 }
 
-/*  LOGIN PAGE  */
+/* LOGIN PAGE */
 .login-body {
     background: url('https://picsum.photos/1920/1080?blur=3') no-repeat center center fixed;
     background-size: cover;
@@ -158,6 +192,7 @@ footer {
     align-items: center;
     height: 100vh;
 }
+
 .login-container {
     background: rgba(255, 255, 255, 0.9);
     padding: 30px 40px;
@@ -165,14 +200,17 @@ footer {
     width: 350px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
+
 .login-container h1 {
     text-align: center;
     margin-bottom: 20px;
 }
+
 .login-container label {
     display: block;
     margin: 10px 0 5px;
 }
+
 .login-container input[type="text"],
 .login-container input[type="password"] {
     width: 100%;
@@ -180,12 +218,14 @@ footer {
     border: 1px solid #bbb;
     border-radius: 5px;
 }
+
 .login-container .checkbox {
     margin: 15px 0;
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
 .login-container button {
     width: 100%;
     padding: 12px;
@@ -196,6 +236,80 @@ footer {
     font-size: 16px;
     cursor: pointer;
 }
+
 .login-container button:hover {
     background: #555;
+}
+
+/* Адаптивность для главной страницы */
+@media (max-width: 800px) {
+    .hero-image {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        text-align: center;
+    }
+    
+    header nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    header nav a {
+        font-size: 18px;
+    }
+    
+    section h2 {
+        text-align: center;
+    }
+    
+    .hero-image {
+        width: 100%;
+    }
+    
+    .services-table {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .services-table {
+        font-size: 12px;
+    }
+    
+    .services-table th, 
+    .services-table td {
+        padding: 8px;
+    }
+}
+
+/* Исправление для формы обратной связи */
+.form-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.form-wrapper {
+    flex: 1;
+}
+
+/* Убедитесь, что форма видима */
+.form-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Исправление для login страницы */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
