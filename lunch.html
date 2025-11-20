@@ -24,22 +24,75 @@
     </header>
 
     <main class="lunch-main">
+        <!-- Супы -->
         <section class="soups-section">
             <h2>Выберите суп</h2>
+            <!-- Фильтры для супов -->
+            <div class="filters">
+                <button class="filter-btn active" data-kind="all">Все</button>
+                <button class="filter-btn" data-kind="fish">Рыбный</button>
+                <button class="filter-btn" data-kind="meat">Мясной</button>
+                <button class="filter-btn" data-kind="veg">Вегетарианский</button>
+            </div>
             <div class="dishes-grid">
                 <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
         </section>
 
+        <!-- Главные блюда -->
         <section class="main-courses-section">
             <h2>Выберите главное блюдо</h2>
+            <!-- Фильтры для главных блюд -->
+            <div class="filters">
+                <button class="filter-btn active" data-kind="all">Все</button>
+                <button class="filter-btn" data-kind="fish">Рыбное</button>
+                <button class="filter-btn" data-kind="meat">Мясное</button>
+                <button class="filter-btn" data-kind="veg">Вегетарианское</button>
+            </div>
             <div class="dishes-grid">
                 <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
         </section>
 
+        <!-- Салаты и стартеры -->
+        <section class="salads-section">
+            <h2>Выберите салат или стартер</h2>
+            <!-- Фильтры для салатов -->
+            <div class="filters">
+                <button class="filter-btn active" data-kind="all">Все</button>
+                <button class="filter-btn" data-kind="fish">Рыбный</button>
+                <button class="filter-btn" data-kind="meat">Мясной</button>
+                <button class="filter-btn" data-kind="veg">Вегетарианский</button>
+            </div>
+            <div class="dishes-grid">
+                <!-- Блюда будут добавлены динамически через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Напитки -->
         <section class="drinks-section">
             <h2>Выберите напиток</h2>
+            <!-- Фильтры для напитков -->
+            <div class="filters">
+                <button class="filter-btn active" data-kind="all">Все</button>
+                <button class="filter-btn" data-kind="cold">Холодный</button>
+                <button class="filter-btn" data-kind="hot">Горячий</button>
+            </div>
+            <div class="dishes-grid">
+                <!-- Блюда будут добавлены динамически через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Десерты -->
+        <section class="desserts-section">
+            <h2>Выберите десерт</h2>
+            <!-- Фильтры для десертов -->
+            <div class="filters">
+                <button class="filter-btn active" data-kind="all">Все</button>
+                <button class="filter-btn" data-kind="small">Маленькая порция</button>
+                <button class="filter-btn" data-kind="medium">Средняя порция</button>
+                <button class="filter-btn" data-kind="large">Большая порция</button>
+            </div>
             <div class="dishes-grid">
                 <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
@@ -67,9 +120,21 @@
                                 </select>
                             </div>
                             <div class="order-item">
+                                <label>Салат/Стартер</label>
+                                <select name="salad">
+                                    <option value="">– Выберите салат –</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
                                 <label>Напиток</label>
                                 <select name="drink">
                                     <option value="">– Выберите напиток –</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
+                                <label>Десерт</label>
+                                <select name="dessert">
+                                    <option value="">– Выберите десерт –</option>
                                 </select>
                             </div>
                             
