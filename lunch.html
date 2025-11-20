@@ -27,172 +27,105 @@
         <section class="soups-section">
             <h2>Выберите суп</h2>
             <div class="dishes-grid">
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Томатный+суп" alt="Томатный суп">
-                    <p class="price">180₽</p>
-                    <p class="name">Томатный суп</p>
-                    <p class="details">350 мл</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Куриный+суп" alt="Куриный суп">
-                    <p class="price">200₽</p>
-                    <p class="name">Куриный суп с лапшой</p>
-                    <p class="details">400 мл</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Грибной+крем-суп" alt="Грибной крем-суп">
-                    <p class="price">220₽</p>
-                    <p class="name">Грибной крем-суп</p>
-                    <p class="details">350 мл</p>
-                    <button>Добавить</button>
-                </div>
+                <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
         </section>
 
         <section class="main-courses-section">
             <h2>Выберите главное блюдо</h2>
             <div class="dishes-grid">
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Паста+Карбонара" alt="Паста Карбонара">
-                    <p class="price">350₽</p>
-                    <p class="name">Паста Карбонара</p>
-                    <p class="details">350 г</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Куриные+котлеты" alt="Куриные котлеты">
-                    <p class="price">280₽</p>
-                    <p class="name">Куриные котлеты с пюре</p>
-                    <p class="details">400 г</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Овощной+рататуй" alt="Овощной рататуй">
-                    <p class="price">320₽</p>
-                    <p class="name">Овощной рататуй с сыром</p>
-                    <p class="details">380 г</p>
-                    <button>Добавить</button>
-                </div>
+                <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
         </section>
 
         <section class="drinks-section">
             <h2>Выберите напиток</h2>
             <div class="dishes-grid">
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Апельсиновый+сок" alt="Апельсиновый сок">
-                    <p class="price">120₽</p>
-                    <p class="name">Апельсиновый сок</p>
-                    <p class="details">300 мл</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Яблочный+сок" alt="Яблочный сок">
-                    <p class="price">90₽</p>
-                    <p class="name">Яблочный сок</p>
-                    <p class="details">300 мл</p>
-                    <button>Добавить</button>
-                </div>
-                <div class="dish-card">
-                    <img src="https://via.placeholder.com/300x200?text=Морковный+сок" alt="Морковный сок">
-                    <p class="price">110₽</p>
-                    <p class="name">Морковный сок</p>
-                    <p class="details">300 мл</p>
-                    <button>Добавить</button>
-                </div>
+                <!-- Блюда будут добавлены динамически через JavaScript -->
             </div>
         </section>
 
         <!-- Форма заказа -->
         <section class="order-section">
             <div class="order-form-container">
-                <h2>Сделать заказ</h2>
-                
-                <div class="order-columns">
-                    <div class="order-summary">
-                        <h3>Ваш заказ</h3>
-                        <div class="order-item">
-                            <label>Суп</label>
-                            <select>
-                                <option>– Выберите суп –</option>
-                                <option>Томатный суп</option>
-                                <option>Куриный суп с лапшой</option>
-                                <option>Грибной крем-суп</option>
-                            </select>
+                <form id="order-form">
+                    <h2>Сделать заказ</h2>
+                    
+                    <div class="order-columns">
+                        <div class="order-summary">
+                            <h3>Ваш заказ</h3>
+                            <div class="order-item">
+                                <label>Суп</label>
+                                <select name="soup">
+                                    <option value="">– Выберите суп –</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
+                                <label>Главное блюдо</label>
+                                <select name="main">
+                                    <option value="">– Выберите главное блюдо –</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
+                                <label>Напиток</label>
+                                <select name="drink">
+                                    <option value="">– Выберите напиток –</option>
+                                </select>
+                            </div>
+                            
+                            <div class="order-comments">
+                                <label>Комментарии к заказу</label>
+                                <textarea name="comments" rows="3" placeholder="Ваши пожелания..."></textarea>
+                            </div>
                         </div>
-                        <div class="order-item">
-                            <label>Главное блюдо</label>
-                            <select>
-                                <option>– Выберите главное блюдо –</option>
-                                <option>Паста Карбонара</option>
-                                <option>Куриные котлеты с пюре</option>
-                                <option>Овощной рататуй с сыром</option>
-                            </select>
-                        </div>
-                        <div class="order-item">
-                            <label>Напиток</label>
-                            <select>
-                                <option>– Выберите напиток –</option>
-                                <option>Апельсиновый сок</option>
-                                <option>Яблочный сок</option>
-                                <option>Морковный сок</option>
-                            </select>
-                        </div>
-                        
-                        <div class="order-comments">
-                            <label>Комментарии к заказу</label>
-                            <textarea rows="3" placeholder="Ваши пожелания..."></textarea>
+
+                        <div class="customer-info">
+                            <h3>Ваши данные</h3>
+                            <div class="form-group">
+                                <label>Имя *</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="promotions" name="promotions">
+                                <label for="promotions">Получать информацию о скидках и акциях</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Номер телефона *</label>
+                                <input type="tel" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Адрес доставки *</label>
+                                <input type="text" name="address" required>
+                                <small>Доставка осуществляется только по Москве</small>
+                            </div>
+                            
+                            <div class="delivery-time">
+                                <label>Время доставки:</label>
+                                <div class="radio-group">
+                                    <input type="radio" id="asap" name="delivery_time" value="asap" checked>
+                                    <label for="asap">Как можно скорее</label>
+                                </div>
+                                <div class="radio-group">
+                                    <input type="radio" id="scheduled" name="delivery_time" value="scheduled">
+                                    <label for="scheduled">К указанному времени</label>
+                                </div>
+                                <div class="time-input">
+                                    <input type="time" id="delivery_time_input" name="delivery_time_custom" disabled>
+                                    <small>Доступное время доставки с 7:00 до 23:00</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="customer-info">
-                        <h3>Ваши данные</h3>
-                        <div class="form-group">
-                            <label>Имя</label>
-                            <input type="text" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" required>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="promotions">
-                            <label for="promotions">Получать информацию о скидках и акциях</label>
-                        </div>
-                        <div class="form-group">
-                            <label>Номер телефона</label>
-                            <input type="tel" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Адрес доставки</label>
-                            <input type="text" required>
-                            <small>Доставка осуществляется только по Москве</small>
-                        </div>
-                        
-                        <div class="delivery-time">
-                            <label>Время доставки:</label>
-                            <div class="radio-group">
-                                <input type="radio" id="asap" name="delivery_time" checked>
-                                <label for="asap">Как можно скорее</label>
-                            </div>
-                            <div class="radio-group">
-                                <input type="radio" id="scheduled" name="delivery_time">
-                                <label for="scheduled">К указанному времени</label>
-                            </div>
-                            <div class="time-input">
-                                <input type="time" id="delivery_time_input" disabled>
-                                <small>Доступное время доставки с 7:00 до 23:00</small>
-                            </div>
-                        </div>
+                    <div class="form-buttons">
+                        <button type="button" class="reset-btn">Сбросить</button>
+                        <button type="submit" class="submit-btn">Отправить заказ</button>
                     </div>
-                </div>
-
-                <div class="form-buttons">
-                    <button type="reset" class="reset-btn">Сбросить</button>
-                    <button type="submit" class="submit-btn">Отправить</button>
-                </div>
+                </form>
             </div>
         </section>
     </main>
@@ -202,6 +135,10 @@
         <p>Телефон: +7 (123) 456-78-90</p>
     </footer>
 
+    <!-- Подключаем скрипты -->
+    <script src="dishes.js"></script>
+    <script src="lunch-script.js"></script>
+    
     <script>
         // Активация поля времени доставки при выборе соответствующей опции
         document.getElementById('scheduled').addEventListener('change', function() {

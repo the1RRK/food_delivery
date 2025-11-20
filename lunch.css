@@ -339,3 +339,54 @@
         padding-top: 30px;
     }
 }
+/* Стили для блока общей стоимости */
+.order-total {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Стили для выделенной карточки */
+.dish-card.selected {
+    border: 2px solid tomato !important;
+}
+/* Стили для выделенной карточки блюда */
+.dish-card.selected {
+    border: 2px solid tomato !important;
+    transform: scale(1.02);
+}
+
+/* Стили для блока общей стоимости */
+.order-total {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #e0e0e0;
+    display: none;
+}
+
+/* Стили для активной кнопки */
+.dish-card.selected button {
+    background-color: tomato !important;
+    color: white !important;
+}
+
+/* Улучшенные стили для сетки блюд */
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Анимация при выборе блюда */
+.dish-card {
+    transition: all 0.3s ease;
+}
