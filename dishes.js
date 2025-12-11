@@ -308,7 +308,7 @@ function getLocalDishes() {
             price: 160,
             category: 'dessert',
             count: '130 г',
-            image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy8yMDI0MDYxNC8zUWVIRUYucG5n.jpg',
+            image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS8yMDI0MDYxNC8zUWVIRUYucG5n.jpg',
             kind: 'small'
         },
         {
@@ -332,13 +332,73 @@ function getLocalDishes() {
     ];
 }
 
+// Определение комбо-вариантов с фиксированными ценами
+const lunchCombos = [
+    { 
+        name: 'Комбо 1: Полный обед', 
+        description: 'Суп + Главное + Салат + Напиток',
+        items: ['soup', 'main', 'salad', 'drink'],
+        dishes: [
+            { keyword: 'chicken_soup', category: 'soup' },
+            { keyword: 'chicken_cutlets', category: 'main' },
+            { keyword: 'caesar_salad', category: 'salad' },
+            { keyword: 'orange_juice', category: 'drink' }
+        ],
+        price: 980
+    },
+    { 
+        name: 'Комбо 2: Суп + Основное', 
+        description: 'Суп + Основное + Напиток',
+        items: ['soup', 'main', 'drink'],
+        dishes: [
+            { keyword: 'tomato_soup', category: 'soup' },
+            { keyword: 'pasta_carbonara', category: 'main' },
+            { keyword: 'green_tea', category: 'drink' }
+        ],
+        price: 560
+    },
+    { 
+        name: 'Комбо 3: Легкий обед', 
+        description: 'Суп + Салат + Напиток',
+        items: ['soup', 'salad', 'drink'],
+        dishes: [
+            { keyword: 'mushroom_cream_soup', category: 'soup' },
+            { keyword: 'greek_salad', category: 'salad' },
+            { keyword: 'apple_juice', category: 'drink' }
+        ],
+        price: 590
+    },
+    { 
+        name: 'Комбо 4: Основное + Салат', 
+        description: 'Главное + Салат + Напиток',
+        items: ['main', 'salad', 'drink'],
+        dishes: [
+            { keyword: 'beef_stroganoff', category: 'main' },
+            { keyword: 'vegetable_salad', category: 'salad' },
+            { keyword: 'black_tea', category: 'drink' }
+        ],
+        price: 740
+    },
+    { 
+        name: 'Комbo 5: Быстрый перекус', 
+        description: 'Главное + Напиток',
+        items: ['main', 'drink'],
+        dishes: [
+            { keyword: 'vegetable_curry', category: 'main' },
+            { keyword: 'carrot_juice', category: 'drink' }
+        ],
+        price: 400
+    }
+];
+
 // Экспортируем функции и переменные для использования в других скриптах
 if (typeof module !== 'undefined' && module.exports) {
     // Для Node.js
-    module.exports = { dishes, loadDishes, getLocalDishes };
+    module.exports = { dishes, loadDishes, getLocalDishes, lunchCombos };
 } else {
     // Для браузера - делаем глобально доступными
     window.dishes = dishes;
     window.loadDishes = loadDishes;
     window.getLocalDishes = getLocalDishes;
+    window.lunchCombos = lunchCombos;
 }

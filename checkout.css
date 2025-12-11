@@ -1,0 +1,479 @@
+/* checkout.css - стили для страницы оформления заказа */
+
+.checkout-main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.checkout-main h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 28px;
+}
+
+.checkout-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.order-composition {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid #f1eee9;
+}
+
+.order-composition h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1eee9;
+}
+
+#order-items-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 200px;
+}
+
+.order-dish-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.order-dish-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.order-dish-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.order-dish-card .dish-info {
+    flex: 1;
+}
+
+.order-dish-card .name {
+    font-weight: 500;
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.order-dish-card .description,
+.order-dish-card .count {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.order-dish-card .price {
+    font-weight: bold;
+    color: tomato;
+    font-size: 18px;
+    margin: 0 15px;
+    min-width: 70px;
+    text-align: right;
+}
+
+.order-dish-card .remove-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.3s ease;
+}
+
+.order-dish-card .remove-btn:hover {
+    background: #ff5252;
+}
+
+.order-dish-card.combo-card {
+    background: #fff3e0;
+    border: 2px solid #ffcc80;
+}
+
+#empty-order-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+#empty-order-message p {
+    margin: 10px 0;
+}
+
+#empty-order-message a {
+    color: tomato;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#empty-order-message a:hover {
+    text-decoration: underline;
+}
+
+.checkout-form {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid #f1eee9;
+}
+
+.checkout-form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1eee9;
+}
+
+.order-summary-checkout {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.order-summary-checkout .total-price {
+    font-size: 32px;
+    color: tomato;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #f1eee9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: tomato;
+    outline: none;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.order-comments {
+    margin: 20px 0;
+}
+
+.order-comments label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.order-comments textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.reset-btn,
+.submit-btn {
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reset-btn {
+    background: #f1eee9;
+    color: #333;
+}
+
+.reset-btn:hover {
+    background: #e0dcd6;
+}
+
+.submit-btn {
+    background: tomato;
+    color: white;
+}
+
+.submit-btn:hover {
+    background: #ff3814;
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .order-dish-card {
+        flex-wrap: wrap;
+    }
+    
+    .order-dish-card img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 600px) {
+    .checkout-main {
+        padding: 15px;
+    }
+    
+    .checkout-main h2 {
+        font-size: 24px;
+    }
+    
+    .order-composition,
+    .checkout-form {
+        padding: 20px;
+    }
+    
+    .form-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .order-dish-card {
+        padding: 12px;
+    }
+    
+    .order-dish-card .price {
+        font-size: 16px;
+        min-width: 60px;
+    }
+}
+/* ====================
+   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ CHECKOUT
+   ==================== */
+
+/* Стили для карточек в заказе */
+.order-dish-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.order-dish-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.order-dish-card.combo-card {
+    background: #fff3e0;
+    border: 2px solid #ffcc80;
+}
+
+/* Анимации */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.order-dish-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Кнопки */
+.remove-btn {
+    transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+    background: #ff5252 !important;
+    transform: scale(1.1);
+}
+
+/* Сообщение о пустой корзине */
+#empty-order-message {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 600px) {
+    .order-dish-card {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 12px;
+    }
+    
+    .order-dish-card img {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .order-dish-card .dish-info {
+        order: 1;
+        flex-basis: 60%;
+    }
+    
+    .order-dish-card .price {
+        order: 2;
+        font-size: 16px !important;
+        min-width: 60px !important;
+        text-align: right;
+    }
+    
+    .order-dish-card .remove-btn {
+        order: 3;
+    }
+}
+
+/* Улучшения для внешнего вида */
+#checkout-total {
+    font-size: 32px;
+    font-weight: bold;
+    color: tomato;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.order-composition h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1eee9;
+}
+
+#order-items-grid {
+    min-height: 150px;
+}
+
+/* Кнопки формы */
+.reset-btn, .submit-btn {
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    background: #e0dcd6;
+    transform: translateY(-1px);
+}
+
+.submit-btn:hover {
+    background: #ff3814;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 99, 71, 0.3);
+}
+
+/* Иконки для улучшения UX */
+.order-dish-card.combo-card::before {
+    content: "🥘";
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    background: tomato;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.order-dish-card:not(.combo-card)::before {
+    content: "🍽️";
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    background: #4CAF50;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}

@@ -731,3 +731,203 @@
         min-height: 400px;
     }
 }
+/* ====================
+   ПАНЕЛЬ ОФОРМЛЕНИЯ ЗАКАЗА
+   ==================== */
+
+.order-panel {
+    position: sticky;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    border-top: 2px solid #f1eee9;
+    z-index: 100;
+    margin-top: 40px;
+}
+
+.order-panel-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.order-panel-content h3 {
+    margin: 0;
+    color: #333;
+    font-size: 20px;
+    min-width: 120px;
+}
+
+.order-summary-mini {
+    flex: 1;
+}
+
+.order-summary-mini p {
+    margin: 5px 0;
+}
+
+#current-order-total {
+    font-weight: bold;
+    color: tomato;
+    font-size: 22px;
+}
+
+.validation-message {
+    font-size: 14px;
+    color: #666;
+}
+
+.checkout-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: tomato;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 200px;
+}
+
+.checkout-btn:hover:not(.disabled) {
+    background-color: #ff3814;
+    transform: translateY(-2px);
+}
+
+.checkout-btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.checkout-btn.valid {
+    background-color: #4CAF50;
+}
+
+.checkout-btn.valid:hover {
+    background-color: #45a049;
+}
+
+/* Адаптивность для панели */
+@media (max-width: 768px) {
+    .order-panel-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .order-panel-content h3 {
+        min-width: auto;
+    }
+    
+    .checkout-btn {
+        min-width: 100%;
+    }
+}
+/* Гарантируем что секции всегда видны */
+.soups-section,
+.main-courses-section,
+.salads-section,
+.drinks-section,
+.desserts-section {
+    display: block !important;
+}
+
+/* Фиксируем высоту изображений для одинакового размера */
+.dish-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Стили для выбранных карточек */
+.dish-card.selected {
+    border: 2px solid tomato !important;
+    transform: scale(1.02);
+}
+
+.dish-card.selected .dish-btn {
+    background-color: tomato !important;
+    color: white !important;
+}
+/* Стили для правильной фильтрации */
+.dish-card[style*="display: none"] {
+    display: none !important;
+}
+
+.dish-card {
+    display: flex !important;
+    flex-direction: column;
+}
+
+/* Убедимся что фильтры работают */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #f1eee9;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active {
+    background: tomato;
+    color: white;
+    border-color: tomato;
+}
+
+/* Стили для кнопок добавления */
+.dish-btn {
+    background: #f1eee9;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: auto;
+    transition: all 0.3s;
+}
+
+.dish-btn:hover {
+    background: #e0dcd6;
+}
+
+.dish-card.selected .dish-btn {
+    background: tomato !important;
+    color: white !important;
+}
+
+/* Гарантируем что панель оформления видна */
+#order-panel {
+    position: sticky;
+    bottom: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    border-top: 2px solid #f1eee9;
+    z-index: 100;
+}
+
+.checkout-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #ccc !important;
+}
