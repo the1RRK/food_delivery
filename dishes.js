@@ -7,8 +7,8 @@ const dishes = [
         price: 180,
         category: 'soup',
         count: '350 мл',
-        image: 'https://via.placeholder.com/300x200?text=Томатный+суп',
-        kind: 'veg' // вегетарианский
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     {
         keyword: 'chicken_soup',
@@ -16,8 +16,8 @@ const dishes = [
         price: 200,
         category: 'soup',
         count: '400 мл',
-        image: 'https://via.placeholder.com/300x200?text=Куриный+суп',
-        kind: 'meat' // мясной
+        image: 'https://brusnika-kitchen.ru/d/sup_lapsha_kurinyj.jpg',
+        kind: 'meat'
     },
     {
         keyword: 'mushroom_cream_soup',
@@ -25,8 +25,8 @@ const dishes = [
         price: 220,
         category: 'soup',
         count: '350 мл',
-        image: 'https://via.placeholder.com/300x200?text=Грибной+крем-суп',
-        kind: 'veg' // вегетарианский
+        image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     {
         keyword: 'fish_soup',
@@ -34,8 +34,8 @@ const dishes = [
         price: 280,
         category: 'soup',
         count: '400 мл',
-        image: 'https://via.placeholder.com/300x200?text=Уха+по-фински',
-        kind: 'fish' // рыбный
+        image: 'https://sushilka-nt.ru/d/2c92ee2b7db82a303e7a077f786b5554.jpg',
+        kind: 'fish'
     },
     {
         keyword: 'borscht',
@@ -43,8 +43,8 @@ const dishes = [
         price: 240,
         category: 'soup',
         count: '400 мл',
-        image: 'https://via.placeholder.com/300x200?text=Борщ+с+говядиной',
-        kind: 'meat' // мясной
+        image: 'https://avatars.mds.yandex.net/i?id=f106fccde8ece161e9a479becd14b203_l-5655834-images-thumbs&n=13',
+        kind: 'meat'
     },
     {
         keyword: 'pumpkin_soup',
@@ -52,8 +52,8 @@ const dishes = [
         price: 210,
         category: 'soup',
         count: '350 мл',
-        image: 'https://via.placeholder.com/300x200?text=Тыквенный+крем-суп',
-        kind: 'veg' // вегетарианский
+        image: 'https://avatars.mds.yandex.net/i?id=4c1c4c53eb9ead00a8e6f69d504562abf41cfad7-4391477-images-thumbs&n=13',
+        kind: 'veg'
     },
     
     // Главные блюда
@@ -63,8 +63,8 @@ const dishes = [
         price: 350,
         category: 'main',
         count: '350 г',
-        image: 'https://via.placeholder.com/300x200?text=Паста+Карбонара',
-        kind: 'meat' // мясное
+        image: 'https://images.unsplash.com/photo-1598866594230-a7c12756260f?w=300&h=200&fit=crop',
+        kind: 'meat'
     },
     {
         keyword: 'chicken_cutlets',
@@ -72,8 +72,8 @@ const dishes = [
         price: 280,
         category: 'main',
         count: '400 г',
-        image: 'https://via.placeholder.com/300x200?text=Куриные+котлеты',
-        kind: 'meat' // мясное
+        image: 'https://avatars.mds.yandex.net/i?id=08c382906385215026658bb6803596dc100910d9-8496994-images-thumbs&n=13',
+        kind: 'meat'
     },
     {
         keyword: 'vegetable_ratatouille',
@@ -81,8 +81,8 @@ const dishes = [
         price: 320,
         category: 'main',
         count: '380 г',
-        image: 'https://via.placeholder.com/300x200?text=Овощной+рататуй',
-        kind: 'veg' // вегетарианское
+        image: 'https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     {
         keyword: 'grilled_salmon',
@@ -90,8 +90,8 @@ const dishes = [
         price: 420,
         category: 'main',
         count: '300 г',
-        image: 'https://via.placeholder.com/300x200?text=Лосось+на+гриле',
-        kind: 'fish' // рыбное
+        image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300&h=200&fit=crop',
+        kind: 'fish'
     },
     {
         keyword: 'beef_stroganoff',
@@ -99,8 +99,8 @@ const dishes = [
         price: 380,
         category: 'main',
         count: '350 г',
-        image: 'https://via.placeholder.com/300x200?text=Бефстроганов',
-        kind: 'meat' // мясное
+        image: 'https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=300&h=200&fit=crop',
+        kind: 'meat'
     },
     {
         keyword: 'vegetable_curry',
@@ -108,8 +108,8 @@ const dishes = [
         price: 290,
         category: 'main',
         count: '400 г',
-        image: 'https://via.placeholder.com/300x200?text=Овощное+карри',
-        kind: 'veg' // вегетарианское
+        image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     
     // Напитки
@@ -119,8 +119,8 @@ const dishes = [
         price: 120,
         category: 'drink',
         count: '300 мл',
-        image: 'https://via.placeholder.com/300x200?text=Апельсиновый+сок',
-        kind: 'cold' // холодный
+        image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=200&fit=crop',
+        kind: 'cold'
     },
     {
         keyword: 'apple_juice',
@@ -128,8 +128,8 @@ const dishes = [
         price: 90,
         category: 'drink',
         count: '300 мл',
-        image: 'https://via.placeholder.com/300x200?text=Яблочный+сок',
-        kind: 'cold' // холодный
+        image: 'https://avatars.mds.yandex.net/i?id=846336955cd2c93458b224b22843372feca9d704-9214559-images-thumbs&n=13',
+        kind: 'cold'
     },
     {
         keyword: 'carrot_juice',
@@ -137,8 +137,8 @@ const dishes = [
         price: 110,
         category: 'drink',
         count: '300 мл',
-        image: 'https://via.placeholder.com/300x200?text=Морковный+сок',
-        kind: 'cold' // холодный
+        image: 'https://main-cdn.sbermegamarket.ru/big2/hlr-system/-15/876/480/409/191/726/100029253367b0.jpg',
+        kind: 'cold'
     },
     {
         keyword: 'green_tea',
@@ -146,8 +146,8 @@ const dishes = [
         price: 80,
         category: 'drink',
         count: '400 мл',
-        image: 'https://via.placeholder.com/300x200?text=Зеленый+чай',
-        kind: 'hot' // горячий
+        image: 'https://img.freepik.com/premium-photo/cup-green-tea-with-leaves-white-background_787273-2374.jpg',
+        kind: 'hot'
     },
     {
         keyword: 'black_tea',
@@ -155,8 +155,8 @@ const dishes = [
         price: 80,
         category: 'drink',
         count: '400 мл',
-        image: 'https://via.placeholder.com/300x200?text=Черный+чай',
-        kind: 'hot' // горячий
+        image: 'https://avatars.mds.yandex.net/i?id=304222a94e53b67474ad22c0f3c88ef1_l-5222242-images-thumbs&n=13',
+        kind: 'hot'
     },
     {
         keyword: 'coffee',
@@ -164,8 +164,8 @@ const dishes = [
         price: 130,
         category: 'drink',
         count: '300 мл',
-        image: 'https://via.placeholder.com/300x200?text=Кофе+американо',
-        kind: 'hot' // горячий
+        image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=200&fit=crop',
+        kind: 'hot'
     },
     
     // Салаты и стартеры
@@ -175,8 +175,8 @@ const dishes = [
         price: 320,
         category: 'salad',
         count: '280 г',
-        image: 'https://via.placeholder.com/300x200?text=Цезарь+с+курицей',
-        kind: 'meat' // мясной
+        image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=300&h=200&fit=crop',
+        kind: 'meat'
     },
     {
         keyword: 'shrimp_salad',
@@ -184,8 +184,8 @@ const dishes = [
         price: 380,
         category: 'salad',
         count: '250 г',
-        image: 'https://via.placeholder.com/300x200?text=Салат+с+креветками',
-        kind: 'fish' // рыбный
+        image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=200&fit=crop',
+        kind: 'fish'
     },
     {
         keyword: 'greek_salad',
@@ -193,8 +193,8 @@ const dishes = [
         price: 280,
         category: 'salad',
         count: '300 г',
-        image: 'https://via.placeholder.com/300x200?text=Греческий+салат',
-        kind: 'veg' // вегетарианский
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     {
         keyword: 'caprese_salad',
@@ -202,8 +202,8 @@ const dishes = [
         price: 260,
         category: 'salad',
         count: '220 г',
-        image: 'https://via.placeholder.com/300x200?text=Капрезе',
-        kind: 'veg' // вегетарианский
+        image: 'https://avatars.mds.yandex.net/i?id=e09925ca240bd55c35db3a320533d5a7_l-9099802-images-thumbs&n=13',
+        kind: 'veg'
     },
     {
         keyword: 'vegetable_salad',
@@ -211,8 +211,8 @@ const dishes = [
         price: 190,
         category: 'salad',
         count: '300 г',
-        image: 'https://via.placeholder.com/300x200?text=Овощной+салат',
-        kind: 'veg' // вегетарианский
+        image: 'https://avatars.mds.yandex.net/i?id=47ed65ddd8221d733d8ab8dd19e1eed3_l-6533913-images-thumbs&n=13',
+        kind: 'veg'
     },
     {
         keyword: 'fruit_salad',
@@ -220,8 +220,8 @@ const dishes = [
         price: 210,
         category: 'salad',
         count: '280 г',
-        image: 'https://via.placeholder.com/300x200?text=Фруктовый+салат',
-        kind: 'veg' // вегетарианский
+        image: 'https://images.unsplash.com/photo-1564093497595-593b96d80180?w=300&h=200&fit=crop',
+        kind: 'veg'
     },
     
     // Десерты
@@ -231,8 +231,8 @@ const dishes = [
         price: 220,
         category: 'dessert',
         count: '150 г',
-        image: 'https://via.placeholder.com/300x200?text=Тирамису',
-        kind: 'medium' // средняя порция
+        image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=200&fit=crop',
+        kind: 'medium'
     },
     {
         keyword: 'cheesecake',
@@ -240,8 +240,8 @@ const dishes = [
         price: 240,
         category: 'dessert',
         count: '180 г',
-        image: 'https://via.placeholder.com/300x200?text=Чизкейк',
-        kind: 'medium' // средняя порция
+        image: 'https://avatars.mds.yandex.net/i?id=22311dc6b809da2359eb66e02e171123f1605054-2856395-images-thumbs&n=13',
+        kind: 'medium'
     },
     {
         keyword: 'chocolate_cake',
@@ -249,8 +249,8 @@ const dishes = [
         price: 190,
         category: 'dessert',
         count: '120 г',
-        image: 'https://via.placeholder.com/300x200?text=Шоколадный+торт',
-        kind: 'small' // маленькая порция
+        image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop',
+        kind: 'small'
     },
     {
         keyword: 'apple_pie',
@@ -258,8 +258,8 @@ const dishes = [
         price: 160,
         category: 'dessert',
         count: '130 г',
-        image: 'https://via.placeholder.com/300x200?text=Яблочный+пирог',
-        kind: 'small' // маленькая порция
+        image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy8yMDI0MDYxNC8zUWVIRUYucG5n.jpg',
+        kind: 'small'
     },
     {
         keyword: 'ice_cream',
@@ -267,8 +267,8 @@ const dishes = [
         price: 140,
         category: 'dessert',
         count: '100 г',
-        image: 'https://via.placeholder.com/300x200?text=Мороженое',
-        kind: 'small' // маленькая порция
+        image: 'https://avatars.mds.yandex.net/get-eda/3813301/549fbc53ff37cedf87c80e65d356e5fa/orig',
+        kind: 'small'
     },
     {
         keyword: 'napoleon_cake',
@@ -276,7 +276,7 @@ const dishes = [
         price: 280,
         category: 'dessert',
         count: '200 г',
-        image: 'https://via.placeholder.com/300x200?text=Торт+Наполеон',
-        kind: 'large' // большая порция
+        image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=300&h=200&fit=crop',
+        kind: 'large'
     }
 ];

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Собрать ланч - Food Delivery Service</title>
+    <link href="https://via.placeholder.com/100x100" rel="icon">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lunch.css">
@@ -24,6 +25,121 @@
     </header>
 
     <main class="lunch-main">
+        <!-- Блок с доступными вариантами ланча -->
+        <section class="lunch-variants-section">
+            <h2>Выберите вариант комбо</h2>
+            <div class="variants-grid">
+                <!-- Вариант 1: Суп + Главное блюдо + Салат + Напиток -->
+                <div class="variant-card" data-combo="0">
+                    <div class="variant-dishes">
+                        <div class="variant-dish">
+                            <img src="https://brusnika-kitchen.ru/d/sup_lapsha_kurinyj.jpg" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://avatars.mds.yandex.net/i?id=08c382906385215026658bb6803596dc100910d9-8496994-images-thumbs&n=13" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=300&h=200&fit=crop" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=200&fit=crop" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="variant-description">Полный обед</p>
+                </div>
+
+                <!-- Вариант 2: Суп + Главное блюдо + Напиток -->
+                <div class="variant-card" data-combo="1">
+                    <div class="variant-dishes">
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&h=200&fit=crop" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?w=300&h=200&fit=crop" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://img.freepik.com/premium-photo/cup-green-tea-with-leaves-white-background_787273-2374.jpg" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="variant-description">Суп + Основное</p>
+                </div>
+
+                <!-- Вариант 3: Суп + Салат + Напиток -->
+                <div class="variant-card" data-combo="2">
+                    <div class="variant-dishes">
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=200&fit=crop" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://avatars.mds.yandex.net/i?id=846336955cd2c93458b224b22843372feca9d704-9214559-images-thumbs&n=13" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="variant-description">Легкий обед</p>
+                </div>
+
+                <!-- Вариант 4: Главное блюдо + Салат + Напиток -->
+                <div class="variant-card" data-combo="3">
+                    <div class="variant-dishes">
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=300&h=200&fit=crop" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://avatars.mds.yandex.net/i?id=47ed65ddd8221d733d8ab8dd19e1eed3_l-6533913-images-thumbs&n=13" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://avatars.mds.yandex.net/i?id=304222a94e53b67474ad22c0f3c88ef1_l-5222242-images-thumbs&n=13" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="variant-description">Основное + Салат</p>
+                </div>
+
+                <!-- Вариант 5: Главное блюдо + Напиток -->
+                <div class="variant-card" data-combo="4">
+                    <div class="variant-dishes">
+                        <div class="variant-dish">
+                            <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=300&h=200&fit=crop" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="variant-dish">
+                            <img src="https://main-cdn.sbermegamarket.ru/big2/hlr-system/-15/876/480/409/191/726/100029253367b0.jpg" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="variant-description">Быстрый перекус</p>
+                </div>
+            </div>
+
+            <!-- Блок с информацией о десертах -->
+            <div class="dessert-info">
+                <div class="dessert-dish">
+                    <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=200&fit=crop" alt="Десерт">
+                    <span>Десерт</span>
+                </div>
+                <p class="dessert-note">*(Можно добавить к любому заказу, в том числе к комбо)</p>
+            </div>
+            
+            <div class="combo-selection-info" id="combo-selection-info" style="display: none; margin-top: 20px; padding: 15px; background: #fff3e0; border-radius: 10px; text-align: center;">
+                <p>Вы выбрали: <strong id="selected-combo-name"></strong></p>
+                <p id="combo-included-items"></p>
+            </div>
+        </section>
+
         <!-- Супы -->
         <section class="soups-section">
             <h2>Выберите суп</h2>
@@ -104,9 +220,26 @@
                 <form id="order-form">
                     <h2>Сделать заказ</h2>
                     
+                    <div class="order-summary-info" id="order-summary-info" style="display: none; margin-bottom: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px;">
+                        <h3 style="margin: 0 0 10px 0;">Выбранное комбо</h3>
+                        <p style="margin: 5px 0;"><strong>Название:</strong> <span id="summary-combo-name"></span></p>
+                        <p style="margin: 5px 0;"><strong>Состав:</strong> <span id="summary-combo-items"></span></p>
+                    </div>
+                    
                     <div class="order-columns">
                         <div class="order-summary">
                             <h3>Ваш заказ</h3>
+                            
+                            <div class="order-item">
+                                <label>Выберите комбо</label>
+                                <select name="combo">
+                                    <option value="">– Выберите комбо –</option>
+                                </select>
+                            </div>
+                            
+                            <p style="text-align: center; color: #666; margin: 20px 0; font-style: italic;">ИЛИ</p>
+                            <p style="text-align: center; color: #666; margin-bottom: 20px;">Соберите свой набор:</p>
+                            
                             <div class="order-item">
                                 <label>Суп</label>
                                 <select name="soup">
@@ -131,11 +264,13 @@
                                     <option value="">– Выберите напиток –</option>
                                 </select>
                             </div>
+                            
                             <div class="order-item">
-                                <label>Десерт</label>
+                                <label>Десерт (опционально)</label>
                                 <select name="dessert">
                                     <option value="">– Выберите десерт –</option>
                                 </select>
+                                <small style="display: block; margin-top: 5px; color: #666;">Можно добавить к любому заказу</small>
                             </div>
                             
                             <div class="order-comments">

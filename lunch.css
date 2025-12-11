@@ -17,7 +17,198 @@
     color: #333;
 }
 
-/* Стили для фильтров */
+/* Стили для блока с вариантами ланча */
+.lunch-variants-section {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 2px solid #f1eee9;
+}
+
+.lunch-variants-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 24px;
+}
+
+.variants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.variant-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.variant-card:hover {
+    transform: translateY(-5px);
+    border-color: #f1eee9;
+}
+
+.variant-card.selected {
+    border: 2px solid tomato;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.2);
+}
+
+.variant-dishes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.variant-dish {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
+}
+
+.variant-dish:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+.variant-dish img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #f1eee9;
+    transition: all 0.3s ease;
+}
+
+.variant-dish:hover img {
+    border-color: tomato;
+}
+
+.variant-dish span {
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Стили для блока с десертами */
+.dessert-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    border: 2px dashed #f1eee9;
+}
+
+.dessert-dish {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.dessert-dish img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #f1eee9;
+}
+
+.dessert-dish span {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.dessert-note {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Стили для уведомлений */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.notification {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #f1eee9;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.notification h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 20px;
+}
+
+.notification p {
+    margin-bottom: 25px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.notification-btn {
+    background-color: tomato;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.notification-btn:hover {
+    background-color: #ff3814;
+    transform: translateY(-2px);
+}
+
+/* Остальные существующие стили остаются без изменений */
 .filters {
     display: flex;
     justify-content: center;
@@ -46,7 +237,6 @@
     border-color: tomato;
 }
 
-/* Сетка блюд */
 .dishes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -54,7 +244,6 @@
     margin-bottom: 30px;
 }
 
-/* Карточка блюда */
 .dish-card {
     display: flex;
     flex-direction: column;
@@ -110,7 +299,6 @@
     color: white;
 }
 
-/* Стили для выделенной карточки блюда */
 .dish-card.selected {
     border: 2px solid tomato !important;
     transform: scale(1.02);
@@ -121,7 +309,6 @@
     color: white !important;
 }
 
-/* Секция заказа */
 .order-section {
     margin-top: 50px;
     border-top: 2px solid #f1eee9;
@@ -152,7 +339,6 @@
     padding-bottom: 10px;
 }
 
-/* Колонки формы заказа */
 .order-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -160,7 +346,6 @@
     margin-bottom: 30px;
 }
 
-/* Стили для формы заказа */
 .order-item {
     margin-bottom: 20px;
 }
@@ -278,7 +463,6 @@
     cursor: not-allowed;
 }
 
-/* Стили для блока общей стоимости */
 .order-total {
     margin-top: 20px;
     padding: 15px;
@@ -290,7 +474,6 @@
     display: none;
 }
 
-/* Кнопки формы */
 .form-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -330,23 +513,106 @@
     background-color: #ff3814;
 }
 
-/* Адаптивность для страницы "Собрать ланч" */
+/* Новые стили для комбо */
+.variant-description {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.variant-card.selected .variant-description {
+    color: tomato;
+    font-weight: bold;
+}
+
+/* Стили для отображения выбранного комбо */
+#combo-selection-info {
+    animation: fadeIn 0.3s ease-out;
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff3e0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#combo-selection-info p {
+    margin: 5px 0;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стили для кнопок блюд */
+.dish-card button.dish-btn {
+    transition: all 0.3s ease;
+}
+
+/* Стили для отображения информации о комбо в заказе */
+.selected-combo-display {
+    padding: 10px;
+    border: 2px dashed #f1eee9;
+    border-radius: 8px;
+    text-align: center;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-summary-info {
+    animation: fadeIn 0.3s ease-out;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #e8f5e9;
+    border-radius: 10px;
+}
+
+/* Адаптивность для комбо-карточек */
+@media (max-width: 768px) {
+    .variant-card {
+        padding: 15px;
+    }
+    
+    .variant-dish img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .variant-dish span {
+        font-size: 12px;
+    }
+    
+    .variant-description {
+        font-size: 12px;
+    }
+}
+
+/* Адаптивность */
 @media (max-width: 900px) {
     .order-columns {
         grid-template-columns: 1fr;
         gap: 30px;
     }
     
-    .dishes-grid {
+    .variants-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
     }
 }
 
 @media (max-width: 800px) {
-    .dishes-grid {
+    .variants-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
     }
     
     .order-form-container {
@@ -355,21 +621,12 @@
 }
 
 @media (max-width: 600px) {
-    .lunch-main h1 {
-        text-align: center;
-    }
-    
-    header nav {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    header nav a {
-        font-size: 18px;
-    }
-    
     .lunch-main h2 {
         text-align: center;
+    }
+    
+    .variants-grid {
+        grid-template-columns: 1fr;
     }
     
     .dishes-grid {
@@ -386,11 +643,6 @@
         gap: 15px;
     }
     
-    .order-section {
-        margin-top: 30px;
-        padding-top: 30px;
-    }
-    
     .filters {
         gap: 5px;
     }
@@ -398,5 +650,84 @@
     .filter-btn {
         padding: 6px 12px;
         font-size: 12px;
+    }
+}
+/* Стили для разделителя "ИЛИ" */
+.order-summary p[style*="italic"] {
+    position: relative;
+    font-weight: 500;
+}
+
+.order-summary p[style*="italic"]::before,
+.order-summary p[style*="italic"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #f1eee9;
+}
+
+.order-summary p[style*="italic"]::before {
+    left: 0;
+}
+
+.order-summary p[style*="italic"]::after {
+    right: 0;
+}
+/* ====================
+   ФИКСИРОВАННЫЕ РАЗМЕРЫ ИЗОБРАЖЕНИЙ
+   ==================== */
+
+/* Для карточек блюд */
+.dish-card img {
+    width: 100%;
+    height: 200px; /* Фиксированная высота */
+    border-radius: 35px;
+    margin-bottom: 15px;
+    object-fit: cover; /* Сохраняет пропорции и заполняет контейнер */
+    object-position: center;
+}
+
+/* Гарантируем одинаковую высоту карточек */
+.dish-card {
+    height: 100%;
+    min-height: 450px;
+}
+
+/* Для карточек вариантов комбо */
+.variant-dish img {
+    width: 80px;
+    height: 80px; /* Фиксированная высота */
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #f1eee9;
+    transition: all 0.3s ease;
+}
+
+.dessert-dish img {
+    width: 80px;
+    height: 80px; /* Фиксированная высота */
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #f1eee9;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 600px) {
+    .dish-card img {
+        height: 180px;
+    }
+    .dish-card {
+        min-height: 420px;
+    }
+}
+
+@media (max-width: 400px) {
+    .dish-card img {
+        height: 150px;
+    }
+    .dish-card {
+        min-height: 400px;
     }
 }
