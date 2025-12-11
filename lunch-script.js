@@ -31,7 +31,7 @@ const lunchCombos = [
             { keyword: 'caesar_salad', category: 'salad' },      // Цезарь с курицей
             { keyword: 'orange_juice', category: 'drink' }       // Апельсиновый сок
         ],
-        price: 0
+        price: 0 // Будет рассчитываться автоматически
     },
     { 
         name: 'Комбо 2: Суп + Основное', 
@@ -258,7 +258,20 @@ function displayFilteredDishes(category) {
     };
     
     const gridContainer = document.querySelector(categorySections[category]);
+    
+    // Проверяем, что контейнер существует
+    if (!gridContainer) {
+        console.error(`Контейнер для категории ${category} не найден`);
+        return;
+    }
+    
     gridContainer.innerHTML = '';
+    
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        gridContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">Загрузка блюд...</p>';
+        return;
+    }
     
     // Фильтруем блюда по категории и активному фильтру
     let filteredDishes = dishes.filter(dish => dish.category === category);
@@ -267,7 +280,13 @@ function displayFilteredDishes(category) {
         filteredDishes = filteredDishes.filter(dish => dish.kind === activeFilters[category]);
     }
     
-    // Сортируем и отображаем отфильтрованные блюда
+    // Если нет блюд после фильтрации
+    if (filteredDishes.length === 0) {
+        gridContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">Нет блюд по выбранному фильтру</p>';
+        return;
+    }
+    
+    // Сортируем и отображаем отфильтрованные блюды
     const sortedDishes = sortDishesAlphabetically(filteredDishes);
     
     sortedDishes.forEach(dish => {
@@ -284,6 +303,21 @@ function displayFilteredDishes(category) {
 
 // Функция для отображения всех блюд
 function displayAllDishes() {
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        console.warn('Массив dishes пустой или не загружен');
+        
+        // Показываем сообщение во всех секциях
+        const allGrids = document.querySelectorAll('.dishes-grid');
+        allGrids.forEach(grid => {
+            grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">Загрузка меню...</p>';
+        });
+        
+        return;
+    }
+    
+    console.log(`Отображаем ${dishes.length} блюд`);
+    
     // Отображаем блюда для каждой категории с учетом фильтров
     displayFilteredDishes('soup');
     displayFilteredDishes('main');
@@ -330,6 +364,12 @@ function getCategoryFromSection(section) {
 
 // Функция для выбора/удаления блюда
 function selectDish(dish) {
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        showNotification('Меню еще не загружено. Пожалуйста, подождите.');
+        return;
+    }
+    
     const category = dish.category;
     const currentlySelected = selectedDishes[category];
     
@@ -382,11 +422,18 @@ function resetCombo() {
     });
     
     // Скрываем информацию о выбранном комбо
-    document.getElementById('combo-selection-info').style.display = 'none';
-    document.getElementById('selected-combo-display').innerHTML = `
-        <span style="color: #999;">Не выбрано</span>
-    `;
-    document.getElementById('order-summary-info').style.display = 'none';
+    const comboInfo = document.getElementById('combo-selection-info');
+    if (comboInfo) comboInfo.style.display = 'none';
+    
+    const selectedComboDisplay = document.getElementById('selected-combo-display');
+    if (selectedComboDisplay) {
+        selectedComboDisplay.innerHTML = `
+            <span style="color: #999;">Не выбрано</span>
+        `;
+    }
+    
+    const orderSummaryInfo = document.getElementById('order-summary-info');
+    if (orderSummaryInfo) orderSummaryInfo.style.display = 'none';
     
     // Обновляем select комбо
     const comboSelect = document.querySelector('select[name="combo"]');
@@ -397,6 +444,12 @@ function resetCombo() {
 
 // Функция для выбора комбо
 function selectCombo(comboIndex) {
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        showNotification('Меню еще не загружено. Пожалуйста, подождите.');
+        return;
+    }
+    
     // Сбрасываем все отдельные блюда (кроме десерта)
     const categories = ['soup', 'main', 'salad', 'drink'];
     categories.forEach(category => {
@@ -444,6 +497,11 @@ function updateOrderTotal() {
     let total = 0;
     let hasSelectedDishes = false;
     
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        return;
+    }
+    
     // Считаем общую стоимость
     Object.entries(selectedDishes).forEach(([key, dish]) => {
         if (dish) {
@@ -463,7 +521,9 @@ function updateOrderTotal() {
         totalElement = document.createElement('div');
         totalElement.className = 'order-total';
         const orderSummary = document.querySelector('.order-summary');
-        orderSummary.appendChild(totalElement);
+        if (orderSummary) {
+            orderSummary.appendChild(totalElement);
+        }
     }
     
     // Показываем или скрываем блок в зависимости от наличия выбранных блюд
@@ -535,6 +595,12 @@ function resetSelection() {
 
 // Функция для заполнения select элементов
 function populateSelects() {
+    // Проверяем, что массив dishes загружен
+    if (!dishes || dishes.length === 0) {
+        console.warn('Невозможно заполнить select элементы: массив dishes пустой');
+        return;
+    }
+    
     const soupSelect = document.querySelector('select[name="soup"]');
     const mainSelect = document.querySelector('select[name="main"]');
     const saladSelect = document.querySelector('select[name="salad"]');
@@ -603,6 +669,12 @@ function initializeComboSelection() {
     
     variantCards.forEach((card, index) => {
         card.addEventListener('click', function() {
+            // Проверяем, что массив dishes загружен
+            if (!dishes || dishes.length === 0) {
+                showNotification('Меню еще не загружено. Пожалуйста, подождите.');
+                return;
+            }
+            
             // Убираем выделение со всех карточек комбо
             variantCards.forEach(c => c.classList.remove('selected'));
             
@@ -626,23 +698,33 @@ function initializeComboSelection() {
             });
             
             // Обновляем информацию о выбранном комбо
-            comboSelectionInfo.style.display = 'block';
-            selectedComboName.textContent = combo.name;
-            comboIncludedItems.innerHTML = `<strong>Состав:</strong> ${itemsList}<br><strong>Стоимость комбо:</strong> ${combo.price}₽`;
+            if (comboSelectionInfo) {
+                comboSelectionInfo.style.display = 'block';
+                if (selectedComboName) selectedComboName.textContent = combo.name;
+                if (comboIncludedItems) {
+                    comboIncludedItems.innerHTML = `<strong>Состав:</strong> ${itemsList}<br><strong>Стоимость комбо:</strong> ${combo.price}₽`;
+                }
+            }
             
             // Обновляем информацию в форме заказа
-            selectedComboDisplay.innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <strong>${combo.name}</strong>
-                    <small style="color: #666; margin-top: 5px;">${combo.description}</small>
-                    <small style="color: tomato; margin-top: 5px; font-weight: bold;">Стоимость: ${combo.price}₽</small>
-                </div>
-            `;
+            if (selectedComboDisplay) {
+                selectedComboDisplay.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <strong>${combo.name}</strong>
+                        <small style="color: #666; margin-top: 5px;">${combo.description}</small>
+                        <small style="color: tomato; margin-top: 5px; font-weight: bold;">Стоимость: ${combo.price}₽</small>
+                    </div>
+                `;
+            }
             
             // Обновляем краткую информацию о заказе
-            orderSummaryInfo.style.display = 'block';
-            summaryComboName.textContent = combo.name;
-            summaryComboItems.innerHTML = `${combo.description}<br><span style="color: tomato; font-weight: bold;">Стоимость: ${combo.price}₽</span>`;
+            if (orderSummaryInfo) {
+                orderSummaryInfo.style.display = 'block';
+                if (summaryComboName) summaryComboName.textContent = combo.name;
+                if (summaryComboItems) {
+                    summaryComboItems.innerHTML = `${combo.description}<br><span style="color: tomato; font-weight: bold;">Стоимость: ${combo.price}₽</span>`;
+                }
+            }
             
             // Обновляем select комбо
             if (comboSelect) {
@@ -682,23 +764,33 @@ function initializeComboSelection() {
                     });
                     
                     // Обновляем информацию о выбранном комбо
-                    comboSelectionInfo.style.display = 'block';
-                    selectedComboName.textContent = combo.name;
-                    comboIncludedItems.innerHTML = `<strong>Состав:</strong> ${itemsList}<br><strong>Стоимость комбо:</strong> ${combo.price}₽`;
+                    if (comboSelectionInfo) {
+                        comboSelectionInfo.style.display = 'block';
+                        if (selectedComboName) selectedComboName.textContent = combo.name;
+                        if (comboIncludedItems) {
+                            comboIncludedItems.innerHTML = `<strong>Состав:</strong> ${itemsList}<br><strong>Стоимость комбо:</strong> ${combo.price}₽`;
+                        }
+                    }
                     
                     // Обновляем информацию в форме заказа
-                    selectedComboDisplay.innerHTML = `
-                        <div style="display: flex; flex-direction: column; align-items: center;">
-                            <strong>${combo.name}</strong>
-                            <small style="color: #666; margin-top: 5px;">${combo.description}</small>
-                            <small style="color: tomato; margin-top: 5px; font-weight: bold;">Стоимость: ${combo.price}₽</small>
-                        </div>
-                    `;
+                    if (selectedComboDisplay) {
+                        selectedComboDisplay.innerHTML = `
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <strong>${combo.name}</strong>
+                                <small style="color: #666; margin-top: 5px;">${combo.description}</small>
+                                <small style="color: tomato; margin-top: 5px; font-weight: bold;">Стоимость: ${combo.price}₽</small>
+                            </div>
+                        `;
+                    }
                     
                     // Обновляем краткую информацию о заказе
-                    orderSummaryInfo.style.display = 'block';
-                    summaryComboName.textContent = combo.name;
-                    summaryComboItems.innerHTML = `${combo.description}<br><span style="color: tomato; font-weight: bold;">Стоимость: ${combo.price}₽</span>`;
+                    if (orderSummaryInfo) {
+                        orderSummaryInfo.style.display = 'block';
+                        if (summaryComboName) summaryComboName.textContent = combo.name;
+                        if (summaryComboItems) {
+                            summaryComboItems.innerHTML = `${combo.description}<br><span style="color: tomato; font-weight: bold;">Стоимость: ${combo.price}₽</span>`;
+                        }
+                    }
                 }
             } else {
                 // Если select очищен, сбрасываем комбо
@@ -708,158 +800,179 @@ function initializeComboSelection() {
     }
 }
 
+// Функция для обработки отправки формы
+function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    // Проверяем валидность заказа
+    const validation = validateOrder();
+    
+    if (!validation.isValid) {
+        // Показываем уведомление с ошибкой
+        showNotification(validation.message);
+        return;
+    }
+    
+    // Если заказ валиден, продолжаем обработку
+    // Собираем данные формы
+    const formData = new FormData();
+    
+    // Добавляем информацию о выбранном комбо
+    if (selectedDishes.combo !== null) {
+        formData.append('combo', selectedDishes.combo.name);
+        formData.append('combo_price', selectedDishes.combo.price);
+    }
+    
+    // Добавляем выбранные блюда
+    if (selectedDishes.soup) formData.append('soup', selectedDishes.soup.keyword);
+    if (selectedDishes.main) formData.append('main', selectedDishes.main.keyword);
+    if (selectedDishes.salad) formData.append('salad', selectedDishes.salad.keyword);
+    if (selectedDishes.drink) formData.append('drink', selectedDishes.drink.keyword);
+    if (selectedDishes.dessert) formData.append('dessert', selectedDishes.dessert.keyword);
+    
+    // Добавляем остальные данные формы
+    const customerName = document.querySelector('input[name="name"]').value;
+    const customerEmail = document.querySelector('input[name="email"]').value;
+    const customerPhone = document.querySelector('input[name="phone"]').value;
+    const customerAddress = document.querySelector('input[name="address"]').value;
+    const comments = document.querySelector('textarea[name="comments"]').value;
+    const promotions = document.querySelector('input[name="promotions"]').checked;
+    const deliveryTime = document.querySelector('input[name="delivery_time"]:checked').value;
+    
+    formData.append('name', customerName);
+    formData.append('email', customerEmail);
+    formData.append('phone', customerPhone);
+    formData.append('address', customerAddress);
+    formData.append('comments', comments);
+    formData.append('promotions', promotions);
+    formData.append('delivery_time', deliveryTime);
+    
+    // Отображаем информацию о заказе
+    let orderInfo = 'ВАШ ЗАКАЗ УСПЕШНО ОФОРМЛЕН!\n\n';
+    
+    if (selectedDishes.combo !== null) {
+        orderInfo += `Комбо: ${selectedDishes.combo.name}\n`;
+        orderInfo += `Состав: ${selectedDishes.combo.description}\n`;
+        orderInfo += `Стоимость комбо: ${selectedDishes.combo.price}₽\n\n`;
+    } else {
+        orderInfo += `Собранный набор:\n\n`;
+        if (selectedDishes.soup) orderInfo += `Суп: ${selectedDishes.soup.name} - ${selectedDishes.soup.price}₽\n`;
+        if (selectedDishes.main) orderInfo += `Главное блюдо: ${selectedDishes.main.name} - ${selectedDishes.main.price}₽\n`;
+        if (selectedDishes.salad) orderInfo += `Салат: ${selectedDishes.salad.name} - ${selectedDishes.salad.price}₽\n`;
+        if (selectedDishes.drink) orderInfo += `Напиток: ${selectedDishes.drink.name} - ${selectedDishes.drink.price}₽\n`;
+    }
+    
+    if (selectedDishes.dessert) orderInfo += `Десерт: ${selectedDishes.dessert.name} - ${selectedDishes.dessert.price}₽\n`;
+    
+    const total = Object.values(selectedDishes).reduce((sum, dish) => {
+        if (dish) {
+            return sum + (typeof dish === 'object' && 'price' in dish ? dish.price : 0);
+        }
+        return sum;
+    }, 0);
+    
+    orderInfo += `\nОбщая стоимость: ${total}₽\n\n`;
+    orderInfo += `Данные для доставки:\nИмя: ${customerName}\nТелефон: ${customerPhone}\nАдрес: ${customerAddress}\n\n`;
+    orderInfo += `Спасибо за заказ! Ожидайте доставку в ближайшее время.`;
+    
+    alert(orderInfo);
+    
+    // В реальном приложении здесь был бы AJAX запрос на сервер
+    console.log('Данные формы:', Object.fromEntries(formData));
+    
+    // Сбрасываем форму после успешной отправки
+    resetSelection();
+    document.getElementById('order-form').reset();
+}
+
 // Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    // Рассчитываем цены комбо
-    calculateComboPrices();
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Начинаем загрузку данных о блюдах...');
     
-    // Отображаем все блюда
-    displayAllDishes();
-    
-    // Инициализируем фильтры
-    initializeFilters();
-    
-    // Инициализируем выбор комбо
-    initializeComboSelection();
-    
-    // Заполняем select элементы
-    populateSelects();
-    
-    // Добавляем обработчик для кнопки сброса
-    const resetBtn = document.querySelector('.reset-btn');
-    resetBtn.addEventListener('click', resetSelection);
-    
-    // Добавляем обработчик для отправки формы
-    const orderForm = document.getElementById('order-form');
-    orderForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    try {
+        // Ждем загрузки блюд из API
+        await loadDishes();
+        console.log(`Загружено ${dishes.length} блюд`);
         
-        // Проверяем валидность заказа
-        const validation = validateOrder();
+        // Рассчитываем цены комбо
+        calculateComboPrices();
         
-        if (!validation.isValid) {
-            // Показываем уведомление с ошибкой
-            showNotification(validation.message);
-            return;
+        // Отображаем все блюда
+        displayAllDishes();
+        
+        // Инициализируем фильтры
+        initializeFilters();
+        
+        // Инициализируем выбор комбо
+        initializeComboSelection();
+        
+        // Заполняем select элементы
+        populateSelects();
+        
+        // Добавляем обработчик для кнопки сброса
+        const resetBtn = document.querySelector('.reset-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', resetSelection);
         }
         
-        // Если заказ валиден, продолжаем обработку
-        // Собираем данные формы
-        const formData = new FormData();
-        
-        // Добавляем информацию о выбранном комбо
-        if (selectedDishes.combo !== null) {
-            formData.append('combo', selectedDishes.combo.name);
-            formData.append('combo_price', selectedDishes.combo.price);
+        // Добавляем обработчик для отправки формы
+        const orderForm = document.getElementById('order-form');
+        if (orderForm) {
+            orderForm.addEventListener('submit', handleFormSubmit);
         }
         
-        // Добавляем выбранные блюда
-        if (selectedDishes.soup) formData.append('soup', selectedDishes.soup.keyword);
-        if (selectedDishes.main) formData.append('main', selectedDishes.main.keyword);
-        if (selectedDishes.salad) formData.append('salad', selectedDishes.salad.keyword);
-        if (selectedDishes.drink) formData.append('drink', selectedDishes.drink.keyword);
-        if (selectedDishes.dessert) formData.append('dessert', selectedDishes.dessert.keyword);
-        
-        // Добавляем остальные данные формы
-        const customerName = document.querySelector('input[name="name"]').value;
-        const customerEmail = document.querySelector('input[name="email"]').value;
-        const customerPhone = document.querySelector('input[name="phone"]').value;
-        const customerAddress = document.querySelector('input[name="address"]').value;
-        const comments = document.querySelector('textarea[name="comments"]').value;
-        const promotions = document.querySelector('input[name="promotions"]').checked;
-        const deliveryTime = document.querySelector('input[name="delivery_time"]:checked').value;
-        
-        formData.append('name', customerName);
-        formData.append('email', customerEmail);
-        formData.append('phone', customerPhone);
-        formData.append('address', customerAddress);
-        formData.append('comments', comments);
-        formData.append('promotions', promotions);
-        formData.append('delivery_time', deliveryTime);
-        
-        // Отображаем информацию о заказе
-        let orderInfo = 'ВАШ ЗАКАЗ УСПЕШНО ОФОРМЛЕН!\n\n';
-        
-        if (selectedDishes.combo !== null) {
-            orderInfo += `Комбо: ${selectedDishes.combo.name}\n`;
-            orderInfo += `Состав: ${selectedDishes.combo.description}\n`;
-            orderInfo += `Стоимость комбо: ${selectedDishes.combo.price}₽\n\n`;
-        } else {
-            orderInfo += `Собранный набор:\n\n`;
-            if (selectedDishes.soup) orderInfo += `Суп: ${selectedDishes.soup.name} - ${selectedDishes.soup.price}₽\n`;
-            if (selectedDishes.main) orderInfo += `Главное блюдо: ${selectedDishes.main.name} - ${selectedDishes.main.price}₽\n`;
-            if (selectedDishes.salad) orderInfo += `Салат: ${selectedDishes.salad.name} - ${selectedDishes.salad.price}₽\n`;
-            if (selectedDishes.drink) orderInfo += `Напиток: ${selectedDishes.drink.name} - ${selectedDishes.drink.price}₽\n`;
-        }
-        
-        if (selectedDishes.dessert) orderInfo += `Десерт: ${selectedDishes.dessert.name} - ${selectedDishes.dessert.price}₽\n`;
-        
-        const total = Object.values(selectedDishes).reduce((sum, dish) => {
-            if (dish) {
-                return sum + (typeof dish === 'object' && 'price' in dish ? dish.price : 0);
-            }
-            return sum;
-        }, 0);
-        
-        orderInfo += `\nОбщая стоимость: ${total}₽\n\n`;
-        orderInfo += `Данные для доставки:\nИмя: ${customerName}\nТелефон: ${customerPhone}\nАдрес: ${customerAddress}\n\n`;
-        orderInfo += `Спасибо за заказ! Ожидайте доставку в ближайшее время.`;
-        
-        alert(orderInfo);
-        
-        // В реальном приложении здесь был бы AJAX запрос на сервер
-        console.log('Данные формы:', Object.fromEntries(formData));
-        
-        // Сбрасываем форму после успешной отправки
-        resetSelection();
-        orderForm.reset();
-    });
-    
-    // Добавляем обработчики для select элементов
-    const selects = document.querySelectorAll('.order-summary select');
-    selects.forEach(select => {
-        select.addEventListener('change', function() {
-            if (this.value) {
-                if (this.name === 'combo') {
-                    const comboIndex = parseInt(this.value);
-                    if (!isNaN(comboIndex) && comboIndex >= 0 && comboIndex < lunchCombos.length) {
-                        selectCombo(comboIndex);
+        // Добавляем обработчики для select элементов
+        const selects = document.querySelectorAll('.order-summary select');
+        selects.forEach(select => {
+            select.addEventListener('change', function() {
+                if (this.value) {
+                    if (this.name === 'combo') {
+                        const comboIndex = parseInt(this.value);
+                        if (!isNaN(comboIndex) && comboIndex >= 0 && comboIndex < lunchCombos.length) {
+                            selectCombo(comboIndex);
+                        }
+                    } else {
+                        const selectedDish = dishes.find(dish => dish.keyword === this.value);
+                        if (selectedDish) {
+                            selectDish(selectedDish);
+                        }
                     }
                 } else {
-                    const selectedDish = dishes.find(dish => dish.keyword === this.value);
-                    if (selectedDish) {
-                        selectDish(selectedDish);
+                    // Если значение очищено
+                    if (this.name === 'combo') {
+                        resetCombo();
+                    } else {
+                        const category = this.name;
+                        const categoryMap = {
+                            'soup': 'soup',
+                            'main': 'main',
+                            'salad': 'salad',
+                            'drink': 'drink',
+                            'dessert': 'dessert'
+                        };
+                        
+                        if (categoryMap[category]) {
+                            selectedDishes[categoryMap[category]] = null;
+                            
+                            // Убираем выделение со всех карточек в этой категории
+                            const allCards = document.querySelectorAll(`.${categoryMap[category]}s-section .dish-card`);
+                            allCards.forEach(card => {
+                                card.classList.remove('selected');
+                                const button = card.querySelector('.dish-btn');
+                                if (button) button.textContent = 'Добавить';
+                            });
+                            
+                            updateOrderTotal();
+                        }
                     }
                 }
-            } else {
-                // Если значение очищено
-                if (this.name === 'combo') {
-                    resetCombo();
-                } else {
-                    const category = this.name;
-                    const categoryMap = {
-                        'soup': 'soup',
-                        'main': 'main',
-                        'salad': 'salad',
-                        'drink': 'drink',
-                        'dessert': 'dessert'
-                    };
-                    
-                    if (categoryMap[category]) {
-                        selectedDishes[categoryMap[category]] = null;
-                        
-                        // Убираем выделение со всех карточек в этой категории
-                        const allCards = document.querySelectorAll(`.${categoryMap[category]}s-section .dish-card`);
-                        allCards.forEach(card => {
-                            card.classList.remove('selected');
-                            const button = card.querySelector('.dish-btn');
-                            if (button) button.textContent = 'Добавить';
-                        });
-                        
-                        updateOrderTotal();
-                    }
-                }
-            }
+            });
         });
-    });
+        
+        console.log('Инициализация завершена успешно');
+        
+    } catch (error) {
+        console.error('Ошибка при инициализации:', error);
+        showNotification('Произошла ошибка при загрузке меню. Пожалуйста, обновите страницу.');
+    }
 });
