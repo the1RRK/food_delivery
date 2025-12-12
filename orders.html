@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои заказы - Food Delivery Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <link rel="stylesheet" href="orders.css">
+</head>
+<body>
+    <header>
+        <h1>Food Delivery Service</h1>
+        <nav>
+            <a href="index.html#home">Главная</a>
+            <a href="index.html#menu">Меню</a>
+            <a href="lunch.html">Собрать ланч</a>
+            <a href="orders.html" class="active">Мои заказы</a>
+            <a href="index.html#about">О нас</a>
+            <a href="index.html#contact">Контакты</a>
+            <a href="contact.html">Обратная связь</a>
+            <a href="checkout.html">Оформить заказ</a>
+            <a href="login.html">Вход</a>
+        </nav>
+    </header>
+
+    <main class="orders-main">
+        <div class="container">
+            <h2>Мои заказы</h2>
+            
+            <div class="orders-controls">
+                <div class="search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="search-orders" placeholder="Поиск по заказам...">
+                </div>
+                <button class="refresh-btn" id="refresh-orders">
+                    <i class="bi bi-arrow-clockwise"></i> Обновить
+                </button>
+            </div>
+            
+            <div class="orders-container">
+                <div id="orders-loading" class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Загрузка заказов...</p>
+                </div>
+                
+                <div id="orders-list" class="orders-list">
+                    <!-- Заказы будут загружаться здесь -->
+                </div>
+                
+                <div id="no-orders" class="no-orders" style="display: none;">
+                    <div class="no-orders-icon">
+                        <i class="bi bi-cart-x"></i>
+                    </div>
+                    <h3>У вас пока нет заказов</h3>
+                    <p>Сделайте свой первый заказ прямо сейчас!</p>
+                    <a href="lunch.html" class="btn-primary">Собрать ланч</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно просмотра заказа -->
+    <div id="view-order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Детали заказа</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="order-info">
+                    <div class="info-row">
+                        <span class="info-label">Номер заказа:</span>
+                        <span class="info-value" id="view-order-id">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Дата оформления:</span>
+                        <span class="info-value" id="view-order-date">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Статус:</span>
+                        <span class="info-value status" id="view-order-status">-</span>
+                    </div>
+                </div>
+                
+                <div class="order-dishes">
+                    <h4>Состав заказа:</h4>
+                    <div id="view-order-dishes">
+                        <!-- Блюда будут добавляться динамически -->
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Стоимость заказа:</span>
+                        <span class="price" id="view-order-total">-</span>
+                    </div>
+                </div>
+                
+                <div class="delivery-info">
+                    <h4>Информация о доставке:</h4>
+                    <div class="info-row">
+                        <span class="info-label">Клиент:</span>
+                        <span class="info-value" id="view-order-customer">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Телефон:</span>
+                        <span class="info-value" id="view-order-phone">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="view-order-email">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Адрес:</span>
+                        <span class="info-value" id="view-order-address">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Время доставки:</span>
+                        <span class="info-value" id="view-order-delivery-time">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Комментарий:</span>
+                        <span class="info-value" id="view-order-comment">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary close-modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования заказа -->
+    <div id="edit-order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать заказ</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <form id="edit-order-form" class="modal-body">
+                <input type="hidden" id="edit-order-id">
+                
+                <div class="form-group">
+                    <label for="edit-full-name">ФИО *</label>
+                    <input type="text" id="edit-full-name" name="full_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-phone">Телефон *</label>
+                    <input type="tel" id="edit-phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-email">Email *</label>
+                    <input type="email" id="edit-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-address">Адрес доставки *</label>
+                    <input type="text" id="edit-address" name="delivery_address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Время доставки *</label>
+                    <div class="delivery-time-options">
+                        <div class="radio-group">
+                            <input type="radio" id="edit-delivery-now" name="delivery_type" value="now">
+                            <label for="edit-delivery-now">Как можно скорее (с 7:00 до 23:00)</label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" id="edit-delivery-later" name="delivery_type" value="later">
+                            <label for="edit-delivery-later">Ко времени</label>
+                        </div>
+                        <div id="edit-time-picker" style="margin-top: 15px; display: none;">
+                            <input type="time" id="edit-delivery-time" name="delivery_time" min="07:00" max="23:00">
+                            <small>Доставка с 7:00 до 23:00</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-comment">Комментарий</label>
+                    <textarea id="edit-comment" name="comment" rows="3"></textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary close-modal">Отмена</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="bi bi-check-lg"></i> Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения удаления -->
+    <div id="delete-order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Удаление заказа</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="warning-icon">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <p>Вы действительно хотите удалить заказ <strong id="delete-order-number"></strong>?</p>
+                <p class="warning-text">Это действие нельзя отменить.</p>
+                <input type="hidden" id="delete-order-id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary close-modal">Отмена</button>
+                    <button type="button" class="btn-danger" id="confirm-delete">
+                    <i class="bi bi-trash"></i> Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Food Delivery Service. Все права защищены.</p>
+    </footer>
+
+    <script src="dishes.js"></script>
+    <script src="orders.js"></script>
+</body>
+</html>

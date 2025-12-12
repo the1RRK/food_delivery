@@ -308,7 +308,7 @@ function getLocalDishes() {
             price: 160,
             category: 'dessert',
             count: '130 г',
-            image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS8yMDI0MDYxNC8zUWVIRUYucG5n.jpg',
+            image: 'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy8yMDI0MDYxNC8zUWVIRUYucG5n.jpg',
             kind: 'small'
         },
         {
