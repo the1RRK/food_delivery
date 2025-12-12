@@ -54,6 +54,7 @@
     border-radius: 10px;
     border: 1px solid #e0e0e0;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .order-dish-card:hover {
@@ -77,6 +78,7 @@
     font-weight: 500;
     margin: 0 0 5px 0;
     color: #333;
+    font-size: 16px;
 }
 
 .order-dish-card .description,
@@ -91,8 +93,16 @@
     color: tomato;
     font-size: 18px;
     margin: 0 15px;
-    min-width: 70px;
+    min-width: 90px;
     text-align: right;
+}
+
+.order-dish-card .price small {
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    color: #888;
+    margin-top: 3px;
 }
 
 .order-dish-card .remove-btn {
@@ -106,6 +116,7 @@
     font-size: 18px;
     line-height: 1;
     transition: background 0.3s ease;
+    flex-shrink: 0;
 }
 
 .order-dish-card .remove-btn:hover {
@@ -272,6 +283,86 @@
     cursor: not-allowed;
 }
 
+/* Стили для времени доставки */
+.delivery-time-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.radio-group input[type="radio"] {
+    margin: 0;
+}
+
+.radio-group label {
+    margin: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+#time-picker {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+#time-picker input[type="time"] {
+    padding: 10px;
+    border: 2px solid #f1eee9;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 150px;
+}
+
+#time-picker input[type="time"]:focus {
+    border-color: tomato;
+    outline: none;
+}
+
+/* Стили для кнопок количества */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.quantity-btn {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #f1eee9;
+    background: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.quantity-btn:hover {
+    border-color: tomato;
+    background: tomato;
+    color: white;
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Адаптивность */
 @media (max-width: 900px) {
     .checkout-container {
@@ -286,6 +377,10 @@
     .order-dish-card img {
         width: 60px;
         height: 60px;
+    }
+    
+    .form-buttons {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -303,44 +398,33 @@
         padding: 20px;
     }
     
-    .form-buttons {
-        grid-template-columns: 1fr;
-    }
-    
     .order-dish-card {
         padding: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .order-dish-card img {
+        width: 50px;
+        height: 50px;
     }
     
     .order-dish-card .price {
         font-size: 16px;
-        min-width: 60px;
+        min-width: 80px;
+        margin: 10px 0;
+        order: 3;
+        width: 100%;
+        text-align: left;
     }
-}
-/* ====================
-   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ CHECKOUT
-   ==================== */
-
-/* Стили для карточек в заказе */
-.order-dish-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-}
-
-.order-dish-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.order-dish-card.combo-card {
-    background: #fff3e0;
-    border: 2px solid #ffcc80;
+    
+    .order-dish-card .remove-btn {
+        order: 4;
+        margin-left: auto;
+    }
+    
+    .radio-group {
+        flex-wrap: wrap;
+    }
 }
 
 /* Анимации */
@@ -357,56 +441,6 @@
 
 .order-dish-card {
     animation: slideIn 0.3s ease-out;
-}
-
-/* Кнопки */
-.remove-btn {
-    transition: all 0.3s ease;
-}
-
-.remove-btn:hover {
-    background: #ff5252 !important;
-    transform: scale(1.1);
-}
-
-/* Сообщение о пустой корзине */
-#empty-order-message {
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Адаптивность для мобильных */
-@media (max-width: 600px) {
-    .order-dish-card {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 12px;
-    }
-    
-    .order-dish-card img {
-        width: 60px !important;
-        height: 60px !important;
-    }
-    
-    .order-dish-card .dish-info {
-        order: 1;
-        flex-basis: 60%;
-    }
-    
-    .order-dish-card .price {
-        order: 2;
-        font-size: 16px !important;
-        min-width: 60px !important;
-        text-align: right;
-    }
-    
-    .order-dish-card .remove-btn {
-        order: 3;
-    }
 }
 
 /* Улучшения для внешнего вида */
@@ -427,53 +461,4 @@
 
 #order-items-grid {
     min-height: 150px;
-}
-
-/* Кнопки формы */
-.reset-btn, .submit-btn {
-    transition: all 0.3s ease;
-}
-
-.reset-btn:hover {
-    background: #e0dcd6;
-    transform: translateY(-1px);
-}
-
-.submit-btn:hover {
-    background: #ff3814;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 99, 71, 0.3);
-}
-
-/* Иконки для улучшения UX */
-.order-dish-card.combo-card::before {
-    content: "🥘";
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    background: tomato;
-    color: white;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.order-dish-card:not(.combo-card)::before {
-    content: "🍽️";
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    background: #4CAF50;
-    color: white;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
 }

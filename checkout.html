@@ -67,6 +67,25 @@
                         <small>Доставка по Москве в течение 60 минут</small>
                     </div>
                     
+                    <!-- Время доставки -->
+                    <div class="form-group">
+                        <label>Время доставки *</label>
+                        <div class="delivery-time-options">
+                            <div class="radio-group">
+                                <input type="radio" id="delivery-now" name="delivery-time" value="now" checked>
+                                <label for="delivery-now">Как можно скорее (в течение 60 минут)</label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="delivery-later" name="delivery-time" value="later">
+                                <label for="delivery-later">Ко времени</label>
+                            </div>
+                            <div id="time-picker" style="margin-top: 10px; display: none;">
+                                <input type="time" id="delivery-time" name="delivery-time-value" min="10:00" max="22:00" value="12:00">
+                                <small>Доставка с 10:00 до 22:00</small>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="checkbox-group">
                         <input type="checkbox" id="promotions-checkout" name="promotions">
                         <label for="promotions-checkout">Хочу получать информацию об акциях и скидках</label>
@@ -102,6 +121,21 @@
         document.getElementById('back-to-lunch-btn').addEventListener('click', function() {
             window.location.href = 'lunch.html';
         });
+        
+        // Управление временем доставки
+        const deliveryNow = document.getElementById('delivery-now');
+        const deliveryLater = document.getElementById('delivery-later');
+        const timePicker = document.getElementById('time-picker');
+        
+        if (deliveryNow && deliveryLater && timePicker) {
+            deliveryNow.addEventListener('change', function() {
+                timePicker.style.display = this.checked ? 'none' : 'block';
+            });
+            
+            deliveryLater.addEventListener('change', function() {
+                timePicker.style.display = this.checked ? 'block' : 'none';
+            });
+        }
     </script>
 </body>
 </html>

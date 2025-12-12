@@ -65,6 +65,39 @@ function removeDishFromOrder(category, identifier) {
     }
 }
 
+// Изменить количество блюда
+function updateDishQuantity(identifier, newQuantity, isCombo = false) {
+    try {
+        const savedOrder = loadOrderFromLocalStorage();
+        if (!savedOrder) return;
+        
+        console.log('Изменение количества:', identifier, newQuantity, isCombo);
+        
+        if (isCombo) {
+            // Обновляем количество комбо
+            if (savedOrder.combo && savedOrder.combo.name === identifier) {
+                savedOrder.combo.quantity = newQuantity;
+            }
+        } else {
+            // Обновляем количество отдельного блюда
+            const dish = savedOrder.dishes.find(d => d.keyword === identifier);
+            if (dish) {
+                dish.quantity = newQuantity;
+            }
+        }
+        
+        localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(savedOrder));
+        console.log('Количество обновлено в localStorage');
+        
+        // Перезагружаем отображение
+        loadAndDisplayOrder();
+        
+    } catch (error) {
+        console.error('❌ Ошибка при изменении количества:', error);
+        alert('Ошибка при изменении количества');
+    }
+}
+
 // Загрузить и отобразить заказ
 async function loadAndDisplayOrder() {
     try {
@@ -148,15 +181,16 @@ function displayOrderItems(savedOrder) {
     }
     
     let totalPrice = 0;
-    let hasItems = false;
+    let totalItems = 0;
     
     // Отображаем комбо если есть
     if (savedOrder.combo) {
         console.log('Добавляем комбо в отображение:', savedOrder.combo);
         const comboCard = createComboCard(savedOrder.combo);
         orderItemsGrid.appendChild(comboCard);
-        totalPrice += savedOrder.combo.price;
-        hasItems = true;
+        const comboTotal = savedOrder.combo.price * (savedOrder.combo.quantity || 1);
+        totalPrice += comboTotal;
+        totalItems += savedOrder.combo.quantity || 1;
     }
     
     // Отображаем отдельные блюда если есть
@@ -165,13 +199,14 @@ function displayOrderItems(savedOrder) {
         savedOrder.dishes.forEach(dishData => {
             const dishCard = createOrderDishCard(dishData);
             orderItemsGrid.appendChild(dishCard);
-            totalPrice += dishData.price;
-            hasItems = true;
+            const dishTotal = dishData.price * (dishData.quantity || 1);
+            totalPrice += dishTotal;
+            totalItems += dishData.quantity || 1;
         });
     }
     
     // Если нет ни одного блюда
-    if (!hasItems) {
+    if (totalItems === 0) {
         console.log('Нет элементов для отображения');
         showEmptyOrderMessage();
         return;
@@ -180,14 +215,17 @@ function displayOrderItems(savedOrder) {
     // Обновляем общую стоимость
     if (checkoutTotal) {
         checkoutTotal.textContent = `${totalPrice}₽`;
-        console.log(`Общая стоимость: ${totalPrice}₽`);
+        console.log(`Общая стоимость: ${totalPrice}₽, всего позиций: ${totalItems}`);
     }
     
-    console.log(`✅ Отображено заказов: ${savedOrder.dishes?.length || 0} блюд + ${savedOrder.combo ? '1 комбо' : '0 комбо'}`);
+    console.log(`✅ Отображено заказов: ${totalItems} позиций`);
 }
 
 // Создать карточку блюда
 function createOrderDishCard(dishData) {
+    const quantity = dishData.quantity || 1;
+    const totalPrice = dishData.price * quantity;
+    
     const dishCard = document.createElement('div');
     dishCard.className = 'order-dish-card';
     
@@ -201,14 +239,19 @@ function createOrderDishCard(dishData) {
         <img src="${imageUrl}" alt="${dishData.name}" loading="lazy" 
              onerror="this.src='https://via.placeholder.com/80x80/FFA726/FFFFFF?text=Блюдо'">
         <div class="dish-info">
-            <p class="name">${dishData.name}</p>
+            <p class="name">${dishData.name} (x${quantity})</p>
             <p class="description">${dishData.category === 'soup' ? 'Суп' : 
                                   dishData.category === 'main' ? 'Главное блюдо' :
                                   dishData.category === 'salad' ? 'Салат' :
                                   dishData.category === 'drink' ? 'Напиток' : 'Десерт'}</p>
             <p class="count">${dishData.count || 'Порция'}</p>
+            <div class="quantity-controls" style="margin-top: 8px;">
+                <button type="button" class="quantity-btn minus-btn" style="padding: 3px 8px; font-size: 12px;">-</button>
+                <span style="margin: 0 8px; font-size: 14px;">${quantity} шт</span>
+                <button type="button" class="quantity-btn plus-btn" style="padding: 3px 8px; font-size: 12px;">+</button>
+            </div>
         </div>
-        <p class="price">${dishData.price}₽</p>
+        <p class="price">${totalPrice}₽<br><small>(${dishData.price}₽ × ${quantity})</small></p>
         <button type="button" class="remove-btn" data-keyword="${dishData.keyword}">
             ×
         </button>
@@ -217,10 +260,25 @@ function createOrderDishCard(dishData) {
     // Обработчик удаления
     const removeBtn = dishCard.querySelector('.remove-btn');
     removeBtn.addEventListener('click', function() {
-        const keyword = this.getAttribute('data-keyword');
         if (confirm(`Удалить "${dishData.name}" из заказа?`)) {
-            removeDishFromOrder('dish', keyword);
+            removeDishFromOrder('dish', dishData.keyword);
         }
+    });
+    
+    // Обработчики изменения количества
+    const minusBtn = dishCard.querySelector('.minus-btn');
+    const plusBtn = dishCard.querySelector('.plus-btn');
+    
+    minusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (quantity > 1) {
+            updateDishQuantity(dishData.keyword, quantity - 1, false);
+        }
+    });
+    
+    plusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        updateDishQuantity(dishData.keyword, quantity + 1, false);
     });
     
     return dishCard;
@@ -228,6 +286,9 @@ function createOrderDishCard(dishData) {
 
 // Создать карточку комбо
 function createComboCard(comboData) {
+    const quantity = comboData.quantity || 1;
+    const totalPrice = comboData.price * quantity;
+    
     const comboCard = document.createElement('div');
     comboCard.className = 'order-dish-card combo-card';
     
@@ -247,12 +308,17 @@ function createComboCard(comboData) {
         <img src="${imageUrl}" alt="${comboData.name}" loading="lazy"
              onerror="this.src='https://via.placeholder.com/80x80/FFA726/FFFFFF?text=Комбо'">
         <div class="dish-info">
-            <p class="name">${comboData.name}</p>
+            <p class="name">${comboData.name} (x${quantity})</p>
             <p class="description">${comboData.description || 'Комплексный обед'}</p>
             <p class="count">Комбо набор</p>
+            <div class="quantity-controls" style="margin-top: 8px;">
+                <button type="button" class="quantity-btn minus-btn" style="padding: 3px 8px; font-size: 12px;">-</button>
+                <span style="margin: 0 8px; font-size: 14px;">${quantity} шт</span>
+                <button type="button" class="quantity-btn plus-btn" style="padding: 3px 8px; font-size: 12px;">+</button>
+            </div>
         </div>
-        <p class="price">${comboData.price}₽</p>
-        <button type="button" class="remove-btn" data-category="combo">
+        <p class="price">${totalPrice}₽<br><small>(${comboData.price}₽ × ${quantity})</small></p>
+        <button type="button" class="remove-btn" data-category="combo" data-name="${comboData.name}">
             ×
         </button>
     `;
@@ -260,9 +326,26 @@ function createComboCard(comboData) {
     // Обработчик удаления
     const removeBtn = comboCard.querySelector('.remove-btn');
     removeBtn.addEventListener('click', function() {
-        if (confirm(`Удалить "${comboData.name}" из заказа?`)) {
-            removeDishFromOrder('combo', comboData.name);
+        const comboName = this.getAttribute('data-name');
+        if (confirm(`Удалить "${comboName}" из заказа?`)) {
+            removeDishFromOrder('combo', comboName);
         }
+    });
+    
+    // Обработчики изменения количества
+    const minusBtn = comboCard.querySelector('.minus-btn');
+    const plusBtn = comboCard.querySelector('.plus-btn');
+    
+    minusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (quantity > 1) {
+            updateDishQuantity(comboData.name, quantity - 1, true);
+        }
+    });
+    
+    plusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        updateDishQuantity(comboData.name, quantity + 1, true);
     });
     
     return comboCard;
@@ -321,9 +404,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const name = checkoutForm.querySelector('input[name="name"]').value.trim();
                 const phone = checkoutForm.querySelector('input[name="phone"]').value.trim();
                 const address = checkoutForm.querySelector('input[name="address"]').value.trim();
+                const deliveryTime = checkoutForm.querySelector('input[name="delivery-time"]:checked').value;
+                const deliveryTimeValue = checkoutForm.querySelector('#delivery-time').value;
                 
                 if (!name || !phone || !address) {
                     alert('Заполните обязательные поля: Имя, Телефон и Адрес!');
+                    return;
+                }
+                
+                // Проверяем время доставки
+                if (deliveryTime === 'later' && !deliveryTimeValue) {
+                    alert('Выберите время доставки!');
                     return;
                 }
                 
@@ -339,17 +430,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                     let orderDetails = 'ВАШ ЗАКАЗ:\n\n';
                     
                     if (savedOrder.combo) {
-                        orderDetails += `КОМБО: ${savedOrder.combo.name}\n`;
+                        const comboQuantity = savedOrder.combo.quantity || 1;
+                        const comboTotal = savedOrder.combo.price * comboQuantity;
+                        orderDetails += `КОМБО: ${savedOrder.combo.name} (x${comboQuantity})\n`;
                         orderDetails += `Состав: ${savedOrder.combo.description}\n`;
-                        orderDetails += `Цена: ${savedOrder.combo.price}₽\n\n`;
-                        totalPrice += savedOrder.combo.price;
+                        orderDetails += `Цена: ${comboTotal}₽ (${savedOrder.combo.price}₽ × ${comboQuantity})\n\n`;
+                        totalPrice += comboTotal;
                     }
                     
                     if (savedOrder.dishes && savedOrder.dishes.length > 0) {
                         orderDetails += 'ОТДЕЛЬНЫЕ БЛЮДА:\n';
                         savedOrder.dishes.forEach(dishData => {
-                            orderDetails += `• ${dishData.name} - ${dishData.price}₽ (${dishData.count})\n`;
-                            totalPrice += dishData.price;
+                            const quantity = dishData.quantity || 1;
+                            const dishTotal = dishData.price * quantity;
+                            orderDetails += `• ${dishData.name} - ${dishTotal}₽ (${dishData.price}₽ × ${quantity}, ${dishData.count})\n`;
+                            totalPrice += dishTotal;
                         });
                         orderDetails += '\n';
                     }
@@ -359,6 +454,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                     orderDetails += `Имя: ${name}\n`;
                     orderDetails += `Телефон: ${phone}\n`;
                     orderDetails += `Адрес: ${address}\n`;
+                    
+                    // Время доставки
+                    if (deliveryTime === 'now') {
+                        orderDetails += `Время доставки: Как можно скорее (в течение 60 минут)\n`;
+                    } else {
+                        orderDetails += `Время доставки: ${deliveryTimeValue}\n`;
+                    }
                     
                     const email = checkoutForm.querySelector('input[name="email"]').value.trim();
                     if (email) orderDetails += `Email: ${email}\n`;
@@ -376,6 +478,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         // Показываем сообщение об успехе
                         alert('🎉 Заказ успешно оформлен!\n\n' + 
                               `Сумма заказа: ${totalPrice}₽\n` +
+                              `Время доставки: ${deliveryTime === 'now' ? 'Как можно скорее' : deliveryTimeValue}\n` +
                               `Мы свяжемся с вами для подтверждения.`);
                         
                         // Перенаправляем на главную
