@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Lunch Delivery - Корпоративное питание</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Иконки Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Шрифты Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Кастомные стили для лендинга */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-brand span {
+            color: var(--accent-color);
+        }
+        
+        /* Герой-секция */
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), 
+                        url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Секции */
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: var(--accent-color);
+        }
+        
+        .section-title.text-center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Карточки преимуществ */
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            background: white;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        /* CTA секция */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-btn {
+            background: var(--accent-color);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Форма обратной связи */
+        .contact-form {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Контакты */
+        .contact-info {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            height: 100%;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            background: var(--secondary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        /* Футер */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .contact-form, .contact-info {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .cta-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-basket3-fill text-danger me-2"></i>
+                Business<span>Lunch</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Преимущества</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#order">Заказать</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Контакты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-danger ms-2" href="lunch.html">Собрать ланч</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger ms-2" href="index.html">На главный сайт</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Герой-секция -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 fade-in">
+                    <h1 class="hero-title">Корпоративное питание для вашего бизнеса</h1>
+                    <p class="hero-subtitle">
+                        Ежедневная доставка свежих бизнес-ланчей в офис. Здоровое питание для продуктивной работы вашей команды.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#order" class="btn btn-danger btn-lg px-4 py-3">
+                            <i class="bi bi-calendar-check me-2"></i>Заказать пробный день
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="bi bi-info-circle me-2"></i>Узнать больше
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 fade-in">
+                    <img src="https://images.unsplash.com/photo-1554672408-730436b60dde?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Корпоративный ланч" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">Почему выбирают нас?</h2>
+                    <p class="lead text-muted">Мы заботимся о здоровье и продуктивности вашей команды</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <h4 class="mb-3">Пунктуальность</h4>
+                        <p class="text-muted">Доставка точно к назначенному времени. Никогда не опаздываем, даже в час пик.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h4 class="mb-3">Качество и безопасность</h4>
+                        <p class="text-muted">Все блюда готовятся из свежих продуктов с соблюдением санитарных норм.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <h4 class="mb-3">Гибкие условия</h4>
+                        <p class="text-muted">Изменяйте заказы до 10 утра. Отсутствие сотрудника? Переносим на другой день.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+                        <h4 class="mb-3">Прозрачные цены</h4>
+                        <p class="text-muted">Никаких скрытых платежей. Скидки для постоянных клиентов и крупных заказов.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4 g-4">
+                <div class="col-md-6">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                            <i class="bi bi-heart"></i>
+                        </div>
+                        <h4 class="mb-3">Здоровое питание</h4>
+                        <p class="text-muted">Сбалансированные блюда, разработанные нутрициологами. Опции для вегетарианцев и специальных диет.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h4 class="mb-3">Удобное управление</h4>
+                        <p class="text-muted">Личный кабинет для HR, мобильное приложение для сотрудников, онлайн-отчеты.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Призыв к действию -->
+    <section id="order" class="cta-section">
+        <div class="container text-center">
+            <h2 class="cta-title">Готовы улучшить питание вашей команды?</h2>
+            <p class="lead mb-4" style="max-width: 700px; margin: 0 auto;">
+                Попробуйте наш сервис бесплатно! Закажите пробный день доставки бизнес-ланчей для вашего офиса.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                <a href="lunch.html" class="btn cta-btn btn-lg">
+                    <i class="bi bi-basket me-2"></i>Собрать пробный ланч
+                </a>
+                <a href="#contact" class="btn btn-outline-light btn-lg">
+                    <i class="bi bi-telephone me-2"></i>Получить консультацию
+                </a>
+            </div>
+            <p class="mt-4">Более 150 компаний уже доверяют нам питание своих сотрудников</p>
+        </div>
+    </section>
+
+    <!-- Форма обратной связи и контакты -->
+    <section id="contact" class="py-5">
+        <div class="container py-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">Свяжитесь с нами</h2>
+                    <p class="lead text-muted">Оставьте заявку и мы свяжемся с вами в течение 30 минут</p>
+                </div>
+            </div>
+            
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="contact-form">
+                        <h4 class="mb-4">Отправить запрос</h4>
+                        <form id="landing-contact-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Ваше имя *</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="company" class="form-label">Компания *</label>
+                                    <input type="text" class="form-control" id="company" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Телефон *</label>
+                                    <input type="tel" class="form-control" id="phone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="employees" class="form-label">Количество сотрудников</label>
+                                <select class="form-control" id="employees">
+                                    <option value="1-10">1-10 человек</option>
+                                    <option value="11-50">11-50 человек</option>
+                                    <option value="51-100">51-100 человек</option>
+                                    <option value="100+">Более 100 человек</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Сообщение</label>
+                                <textarea class="form-control" id="message" rows="4" placeholder="Расскажите о ваших потребностях..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-danger btn-lg w-100 py-3">
+                                <i class="bi bi-send me-2"></i>Отправить запрос
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <h4 class="mb-4">Контакты</h4>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <h5>Адрес</h5>
+                                <p>г. Москва, ул. Бизнесовая, д. 15, офис 304<br>БЦ "Деловой центр"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <div>
+                                <h5>Телефон</h5>
+                                <p>+7 (495) 123-45-67<br>+7 (800) 123-45-68 (бесплатно)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <div>
+                                <h5>Email</h5>
+                                <p>business@fooddelivery.ru<br>sales@fooddelivery.ru</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div>
+                                <h5>Часы работы</h5>
+                                <p>Пн-Пт: 8:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5>Мы в соцсетях</h5>
+                            <div class="d-flex gap-3 mt-3">
+                                <a href="#" class="btn btn-outline-light rounded-circle p-2">
+                                    <i class="bi bi-telegram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-light rounded-circle p-2">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-light rounded-circle p-2">
+                                    <i class="bi bi-vk"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-light rounded-circle p-2">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="mb-3">
+                        <i class="bi bi-basket3-fill text-danger me-2"></i>
+                        Business<span style="color: #fff;">Lunch</span>
+                    </h4>
+                    <p>Профессиональная доставка бизнес-ланчей для корпоративных клиентов с 2018 года.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Навигация</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home">Главная</a></li>
+                        <li class="mb-2"><a href="#features">Преимущества</a></li>
+                        <li class="mb-2"><a href="#order">Заказать</a></li>
+                        <li class="mb-2"><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Услуги</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="lunch.html">Бизнес-ланчи</a></li>
+                        <li class="mb-2"><a href="#">Фуршеты</a></li>
+                        <li class="mb-2"><a href="#">Кофе-брейки</a></li>
+                        <li class="mb-2"><a href="#">Диетическое питание</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="mb-3">Другие сайты</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html">Основной сайт</a></li>
+                        <li class="mb-2"><a href="lunch.html">Собрать ланч</a></li>
+                        <li class="mb-2"><a href="checkout.html">Оформить заказ</a></li>
+                        <li class="mb-2"><a href="orders.html">Мои заказы</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="mt-4 mb-4" style="border-color: #555;">
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 Business Lunch Delivery. Все права защищены.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p><a href="#" class="me-3">Политика конфиденциальности</a> | <a href="#">Условия использования</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Обработка формы
+        document.getElementById('landing-contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Сбор данных формы
+            const formData = {
+                name: document.getElementById('name').value,
+                company: document.getElementById('company').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                employees: document.getElementById('employees').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Валидация
+            if (!formData.name || !formData.company || !formData.email || !formData.phone) {
+                alert('Пожалуйста, заполните все обязательные поля');
+                return;
+            }
+            
+            // В реальном проекте здесь будет отправка на сервер
+            // Сейчас просто покажем сообщение
+            alert('Спасибо, ' + formData.name + '! Ваша заявка от компании "' + formData.company + '" принята. Мы свяжемся с вами в течение 30 минут.');
+            
+            // Очистка формы
+            this.reset();
+            
+            // Прокрутка к верху формы
+            document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+        });
+        
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Для мобильных закрываем меню
+                    if (window.innerWidth < 992) {
+                        const navbarCollapse = document.getElementById('navbarNav');
+                        if (navbarCollapse.classList.contains('show')) {
+                            new bootstrap.Collapse(navbarCollapse).toggle();
+                        }
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Анимация при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Наблюдаем за всеми элементами с классом feature-card
+        document.querySelectorAll('.feature-card').forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Инициализация тултипов
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+</html>

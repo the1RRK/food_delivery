@@ -99,7 +99,7 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
-            margin: 20px 0;
+            margin: 10px;
             transition: all 0.3s ease;
             border: 2px solid tomato;
         }
@@ -261,6 +261,28 @@
             font-size: 18px;
         }
         
+        /* Бизнес-кнопка */
+        .business-button {
+            background: #28a745 !important;
+            border-color: #28a745 !important;
+            color: white !important;
+        }
+        
+        .business-button:hover {
+            background: #218838 !important;
+            border-color: #1e7e34 !important;
+            color: white !important;
+        }
+        
+        /* Контейнер для кнопок в герое */
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
         /* Адаптивность */
         @media (max-width: 900px) {
             .services-table {
@@ -274,6 +296,16 @@
             
             .menu-section, .about-section, .contacts-section {
                 padding: 30px 20px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .cta-button {
+                width: 80%;
+                text-align: center;
             }
         }
         
@@ -343,8 +375,14 @@
     <section id="home" class="hero-section">
         <h2>Добро пожаловать в наш сервис доставки еды!</h2>
         <p>Мы предлагаем разнообразные блюда на любой вкус. Сделайте заказ и получите горячую еду прямо к двери!</p>
-        <a href="#menu" class="cta-button">Смотреть меню</a>
-        <br>
+        
+        <div class="hero-buttons">
+            <a href="#menu" class="cta-button">Смотреть меню</a>
+            <a href="landing.html" class="cta-button business-button">
+                <strong>Для бизнеса →</strong>
+            </a>
+        </div>
+        
         <img src="https://avatars.mds.yandex.net/get-altay/9714262/2a0000018a37029fb26af20ce4a95b40baff/XXL_height" 
              alt="Food Delivery" class="hero-image" width="600" height="400">
     </section>
@@ -640,6 +678,18 @@
             menuSection.style.transition = 'all 0.8s ease';
             menuSection.style.opacity = '1';
         }, 800);
+        
+        // Бизнес-кнопка анимация
+        const businessBtn = document.querySelector('.business-button');
+        if (businessBtn) {
+            setTimeout(() => {
+                businessBtn.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    businessBtn.style.transform = 'scale(1)';
+                    businessBtn.style.transition = 'transform 0.5s ease';
+                }, 300);
+            }, 1500);
+        }
     });
 </script>
 
