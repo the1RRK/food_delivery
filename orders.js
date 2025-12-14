@@ -1,10 +1,10 @@
-// orders.js - скрипт для страницы "Мои заказы"
+// orders.js - ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ ДЛЯ ОТОБРАЖЕНИЯ КОМБО
 
 // Ключи для localStorage
 const ORDERS_STORAGE_KEY = 'food_delivery_orders';
 const CURRENT_USER_KEY = 'current_user';
 
-// Текущий пользователь (для демонстрации)
+// Текущий пользователь
 let currentUser = {
     id: 'user_' + Date.now(),
     name: 'Иван Иванов',
@@ -74,6 +74,18 @@ function loadOrders() {
         try {
             orders = JSON.parse(savedOrders);
             console.log(`✅ Загружено ${orders.length} заказов`);
+            
+            // ДЕБАГ: выводим структуру каждого заказа
+            orders.forEach((order, i) => {
+                console.log(`Заказ #${i + 1} (№${order.orderNumber}):`, {
+                    hasCombo: !!order.combo,
+                    comboName: order.combo?.name,
+                    comboPrice: order.combo?.price,
+                    comboQuantity: order.combo?.quantity,
+                    dishesCount: order.dishes?.length || 0,
+                    dishes: order.dishes?.map(d => d.name).join(', ') || 'нет'
+                });
+            });
         } catch (error) {
             console.error('❌ Ошибка при загрузке заказов:', error);
             orders = [];
@@ -96,8 +108,10 @@ function loadOrders() {
     showLoading(false);
 }
 
-// Создание демо-заказов
+// Создание демо-заказов (с комбо в поле combo)
 function createDemoOrders() {
+    console.log('🔄 Создаем демо-заказы с комбо...');
+    
     const demoOrders = [
         {
             id: 'order_' + Date.now(),
@@ -107,12 +121,22 @@ function createDemoOrders() {
             phone: currentUser.phone,
             email: currentUser.email,
             address: 'г. Москва, ул. Примерная, д. 1, кв. 5',
+            combo: {
+                name: 'Комбо 1: Полный обед',
+                description: 'Суп + Главное + Салат + Напиток',
+                price: 980,
+                quantity: 1,
+                dishes: [
+                    { keyword: 'chicken_soup', category: 'soup' },
+                    { keyword: 'chicken_cutlets', category: 'main' },
+                    { keyword: 'caesar_salad', category: 'salad' },
+                    { keyword: 'orange_juice', category: 'drink' }
+                ]
+            },
             dishes: [
-                { name: 'Томатный суп', price: 180, quantity: 1 },
-                { name: 'Паста Карбонара', price: 350, quantity: 1 },
-                { name: 'Апельсиновый сок', price: 120, quantity: 2 }
+                { name: 'Тирамису', price: 220, quantity: 2 }
             ],
-            total: 770,
+            total: 1420, // 980 + (220 * 2)
             deliveryType: 'now',
             deliveryTime: null,
             comment: 'Позвонить за 15 минут',
@@ -127,13 +151,13 @@ function createDemoOrders() {
             phone: currentUser.phone,
             email: currentUser.email,
             address: 'г. Москва, ул. Примерная, д. 1, кв. 5',
+            combo: null, // Заказ БЕЗ комбо
             dishes: [
-                { name: 'Куриный суп с лапшой', price: 200, quantity: 1 },
-                { name: 'Куриные котлеты с пюре', price: 280, quantity: 1 },
-                { name: 'Цезарь с курицей', price: 320, quantity: 1 },
-                { name: 'Зеленый чай', price: 80, quantity: 1 }
+                { name: 'Томатный суп', price: 180, quantity: 1 },
+                { name: 'Паста Карбонара', price: 350, quantity: 1 },
+                { name: 'Апельсиновый сок', price: 120, quantity: 2 }
             ],
-            total: 880,
+            total: 770,
             deliveryType: 'later',
             deliveryTime: '13:30',
             comment: 'Оставить у двери',
@@ -148,11 +172,19 @@ function createDemoOrders() {
             phone: currentUser.phone,
             email: currentUser.email,
             address: 'г. Москва, ул. Тестовая, д. 15, кв. 20',
-            dishes: [
-                { name: 'Комбо 1: Полный обед', price: 980, quantity: 1 },
-                { name: 'Тирамису', price: 220, quantity: 2 }
-            ],
-            total: 1420,
+            combo: {
+                name: 'Комбо 2: Суп + Основное',
+                description: 'Суп + Основное + Напиток',
+                price: 560,
+                quantity: 1,
+                dishes: [
+                    { keyword: 'tomato_soup', category: 'soup' },
+                    { keyword: 'pasta_carbonara', category: 'main' },
+                    { keyword: 'green_tea', category: 'drink' }
+                ]
+            },
+            dishes: [], // Только комбо, без дополнительных блюд
+            total: 560,
             deliveryType: 'now',
             deliveryTime: null,
             comment: '',
@@ -192,7 +224,6 @@ function displayOrders(ordersList) {
     ordersListElement.innerHTML = '';
     
     if (ordersList.length === 0) {
-        // Показываем сообщение "нет заказов"
         ordersListElement.style.display = 'none';
         if (noOrdersElement) {
             noOrdersElement.style.display = 'block';
@@ -200,21 +231,20 @@ function displayOrders(ordersList) {
         return;
     }
     
-    // Скрываем сообщение "нет заказов"
     if (noOrdersElement) {
         noOrdersElement.style.display = 'none';
     }
     ordersListElement.style.display = 'flex';
     
     // Создаем карточки заказов
-    ordersList.forEach((order, index) => {
-        const orderCard = createOrderCard(order, index + 1);
+    ordersList.forEach((order) => {
+        const orderCard = createOrderCard(order);
         ordersListElement.appendChild(orderCard);
     });
 }
 
-// Создание карточки заказа
-function createOrderCard(order, index) {
+// Создание карточки заказа (ГЛАВНОЕ ИСПРАВЛЕНИЕ)
+function createOrderCard(order) {
     const card = document.createElement('div');
     card.className = 'order-card';
     card.dataset.orderId = order.id;
@@ -229,14 +259,50 @@ function createOrderCard(order, index) {
         minute: '2-digit'
     });
     
-    // Форматируем список блюд
-    const dishesList = order.dishes
-        .map(dish => `${dish.name}${dish.quantity > 1 ? ` (x${dish.quantity})` : ''}`)
-        .join(', ');
+    // СОЗДАЕМ СПИСОК БЛЮД С УЧЕТОМ КОМБО
+    let dishesHTML = '';
+    
+    // 1. Если есть комбо - добавляем его первым
+    if (order.combo && order.combo.name) {
+        const comboQuantity = order.combo.quantity || 1;
+        dishesHTML += `
+            <div class="combo-item" style="
+                background: #fff3e0;
+                border-left: 4px solid #ff6347;
+                padding: 8px 10px;
+                margin-bottom: 8px;
+                border-radius: 6px;
+            ">
+                <strong style="color: #ff6347;">🍱 ${order.combo.name}${comboQuantity > 1 ? ` (x${comboQuantity})` : ''}</strong>
+                ${order.combo.description ? `<br><small style="color: #666;">${order.combo.description}</small>` : ''}
+            </div>
+        `;
+        
+        // Добавляем разделитель если есть и обычные блюда
+        if (order.dishes && order.dishes.length > 0) {
+            dishesHTML += '<hr style="margin: 8px 0; border: none; border-top: 1px dashed #ccc;">';
+        }
+    }
+    
+    // 2. Добавляем обычные блюда
+    if (order.dishes && order.dishes.length > 0) {
+        order.dishes.forEach((dish, index) => {
+            dishesHTML += `
+                <div class="dish-item" style="margin-bottom: 4px;">
+                    ${dish.name}${dish.quantity > 1 ? ` (x${dish.quantity})` : ''}
+                </div>
+            `;
+        });
+    }
+    
+    // 3. Если нет ни комбо, ни блюд
+    if (!dishesHTML) {
+        dishesHTML = '<span style="color: #999;">Состав не указан</span>';
+    }
     
     // Время доставки
     const deliveryTimeText = order.deliveryType === 'now' 
-        ? 'Как можно скорее (с 7:00 до 23:00)' 
+        ? 'Как можно скорее' 
         : `Ко времени: ${order.deliveryTime}`;
     
     card.innerHTML = `
@@ -250,7 +316,7 @@ function createOrderCard(order, index) {
         
         <div class="order-details">
             <div class="dishes-list">
-                <span>${dishesList}</span>
+                ${dishesHTML}
             </div>
             
             <div class="order-meta">
@@ -299,9 +365,10 @@ function initEventHandlers() {
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 
                 const filteredOrders = userOrders.filter(order => 
-                    order.dishes.some(dish => 
+                    (order.combo && order.combo.name.toLowerCase().includes(searchTerm)) ||
+                    (order.dishes && order.dishes.some(dish => 
                         dish.name.toLowerCase().includes(searchTerm)
-                    ) ||
+                    )) ||
                     order.id.toLowerCase().includes(searchTerm) ||
                     order.orderNumber.toString().includes(searchTerm)
                 );
@@ -313,7 +380,7 @@ function initEventHandlers() {
         });
     }
     
-    // Обработчики для кнопок действий в карточках
+    // Обработчики для кнопок действий
     document.addEventListener('click', function(e) {
         const actionBtn = e.target.closest('.action-btn');
         if (!actionBtn) return;
@@ -342,18 +409,15 @@ function initEventHandlers() {
 
 // Инициализация модальных окон
 function initModals() {
-    // Получаем все модальные окна
     const modals = document.querySelectorAll('.modal');
     const closeButtons = document.querySelectorAll('.modal-close, .close-modal');
     
-    // Закрытие модальных окон
     closeButtons.forEach(button => {
         button.addEventListener('click', function() {
             closeAllModals();
         });
     });
     
-    // Закрытие при клике вне модального окна
     modals.forEach(modal => {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
@@ -362,7 +426,6 @@ function initModals() {
         });
     });
     
-    // Обработка формы редактирования
     const editForm = document.getElementById('edit-order-form');
     if (editForm) {
         editForm.addEventListener('submit', function(e) {
@@ -371,7 +434,6 @@ function initModals() {
         });
     }
     
-    // Переключение времени доставки в форме редактирования
     const deliveryNowRadio = document.getElementById('edit-delivery-now');
     const deliveryLaterRadio = document.getElementById('edit-delivery-later');
     const timePicker = document.getElementById('edit-time-picker');
@@ -386,17 +448,24 @@ function initModals() {
         });
     }
     
-    // Подтверждение удаления
     const confirmDeleteBtn = document.getElementById('confirm-delete');
     if (confirmDeleteBtn) {
         confirmDeleteBtn.addEventListener('click', deleteOrder);
     }
 }
 
-// Открытие модального окна просмотра
+// ОТКРЫТИЕ МОДАЛЬНОГО ОКНА ПРОСМОТРА (ГЛАВНОЕ ИСПРАВЛЕНИЕ 2)
 function openViewModal(order) {
     const modal = document.getElementById('view-order-modal');
     if (!modal) return;
+    
+    console.log('📋 Открываем детали заказа:', {
+        orderNumber: order.orderNumber,
+        hasCombo: !!order.combo,
+        comboName: order.combo?.name,
+        comboPrice: order.combo?.price,
+        dishesCount: order.dishes?.length || 0
+    });
     
     // Заполняем данные
     document.getElementById('view-order-id').textContent = order.id;
@@ -422,32 +491,96 @@ function openViewModal(order) {
     statusElement.textContent = statusText;
     statusElement.className = 'info-value status ' + order.status;
     
-    // Состав заказа
+    // СОСТАВ ЗАКАЗА - ОСНОВНОЕ ИСПРАВЛЕНИЕ!
     const dishesContainer = document.getElementById('view-order-dishes');
     dishesContainer.innerHTML = '';
     
-    order.dishes.forEach(dish => {
-        const dishElement = document.createElement('div');
-        dishElement.className = 'dish-item';
-        dishElement.innerHTML = `
-            <span class="name">${dish.name}${dish.quantity > 1 ? ` (x${dish.quantity})` : ''}</span>
-            <span class="price">${dish.price * dish.quantity}₽</span>
+    let allItems = [];
+    let totalCalculated = 0;
+    
+    // 1. Добавляем комбо если есть
+    if (order.combo && order.combo.name) {
+        const comboQuantity = order.combo.quantity || 1;
+        const comboTotal = order.combo.price * comboQuantity;
+        totalCalculated += comboTotal;
+        
+        const comboElement = document.createElement('div');
+        comboElement.className = 'dish-item combo-item';
+        comboElement.innerHTML = `
+            <div style="display: flex; flex-direction: column; flex: 1;">
+                <span class="name" style="font-weight: bold; color: #ff6347; font-size: 16px;">
+                    🍱 ${order.combo.name}${comboQuantity > 1 ? ` (x${comboQuantity})` : ''}
+                </span>
+                ${order.combo.description ? 
+                    `<small style="color: #666; margin-top: 4px; display: block;">${order.combo.description}</small>` : ''}
+            </div>
+            <span class="price" style="font-weight: bold; color: #ff6347; font-size: 16px;">
+                ${comboTotal}₽
+                <br>
+                <small style="font-weight: normal; color: #888; font-size: 12px;">
+                    ${order.combo.price}₽ × ${comboQuantity}
+                </small>
+            </span>
         `;
-        dishesContainer.appendChild(dishElement);
-    });
+        dishesContainer.appendChild(comboElement);
+        
+        allItems.push({
+            name: order.combo.name,
+            price: order.combo.price,
+            quantity: comboQuantity,
+            total: comboTotal,
+            isCombo: true
+        });
+        
+        // Добавляем разделитель если будут обычные блюда
+        if (order.dishes && order.dishes.length > 0) {
+            const separator = document.createElement('div');
+            separator.style.height = '15px';
+            dishesContainer.appendChild(separator);
+        }
+    }
+    
+    // 2. Добавляем обычные блюда если есть
+    if (order.dishes && order.dishes.length > 0) {
+        order.dishes.forEach(dish => {
+            const dishTotal = dish.price * dish.quantity;
+            totalCalculated += dishTotal;
+            
+            const dishElement = document.createElement('div');
+            dishElement.className = 'dish-item';
+            dishElement.innerHTML = `
+                <span class="name">${dish.name}${dish.quantity > 1 ? ` (x${dish.quantity})` : ''}</span>
+                <span class="price">${dishTotal}₽</span>
+            `;
+            dishesContainer.appendChild(dishElement);
+            
+            allItems.push({
+                name: dish.name,
+                price: dish.price,
+                quantity: dish.quantity,
+                total: dishTotal,
+                isCombo: false
+            });
+        });
+    }
+    
+    // 3. Если нет ни комбо, ни блюд
+    if (allItems.length === 0) {
+        dishesContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Нет информации о блюдах</div>';
+    }
     
     // Стоимость
     document.getElementById('view-order-total').textContent = `${order.total}₽`;
     
     // Информация о доставке
-    document.getElementById('view-order-customer').textContent = order.customer;
-    document.getElementById('view-order-phone').textContent = order.phone;
-    document.getElementById('view-order-email').textContent = order.email;
-    document.getElementById('view-order-address').textContent = order.address;
+    document.getElementById('view-order-customer').textContent = order.customer || '—';
+    document.getElementById('view-order-phone').textContent = order.phone || '—';
+    document.getElementById('view-order-email').textContent = order.email || '—';
+    document.getElementById('view-order-address').textContent = order.address || '—';
     
     const deliveryTimeText = order.deliveryType === 'now' 
-        ? 'Как можно скорее (с 7:00 до 23:00)' 
-        : `Ко времени: ${order.deliveryTime}`;
+        ? 'Как можно скорее' 
+        : `Ко времени: ${order.deliveryTime || '—'}`;
     document.getElementById('view-order-delivery-time').textContent = deliveryTimeText;
     
     document.getElementById('view-order-comment').textContent = order.comment || '—';
@@ -461,7 +594,6 @@ function openEditModal(order) {
     const modal = document.getElementById('edit-order-modal');
     if (!modal) return;
     
-    // Заполняем форму
     document.getElementById('edit-order-id').value = order.id;
     document.getElementById('edit-full-name').value = order.customer;
     document.getElementById('edit-phone').value = order.phone;
@@ -469,7 +601,6 @@ function openEditModal(order) {
     document.getElementById('edit-address').value = order.address;
     document.getElementById('edit-comment').value = order.comment || '';
     
-    // Время доставки
     const deliveryNowRadio = document.getElementById('edit-delivery-now');
     const deliveryLaterRadio = document.getElementById('edit-delivery-later');
     const timePicker = document.getElementById('edit-time-picker');
@@ -487,7 +618,6 @@ function openEditModal(order) {
         deliveryTimeInput.value = order.deliveryTime || '12:00';
     }
     
-    // Показываем модальное окно
     modal.classList.add('active');
 }
 
@@ -496,14 +626,12 @@ function saveEditedOrder() {
     const orderId = document.getElementById('edit-order-id').value;
     if (!orderId) return;
     
-    // Находим заказ
     const orderIndex = orders.findIndex(o => o.id === orderId);
     if (orderIndex === -1) {
         showNotification('Заказ не найден', 'error');
         return;
     }
     
-    // Собираем данные из формы
     const formData = {
         customer: document.getElementById('edit-full-name').value.trim(),
         phone: document.getElementById('edit-phone').value.trim(),
@@ -515,7 +643,6 @@ function saveEditedOrder() {
         updatedAt: new Date().toISOString()
     };
     
-    // Валидация
     if (!formData.customer || !formData.phone || !formData.email || !formData.address) {
         showNotification('Заполните все обязательные поля', 'error');
         return;
@@ -526,22 +653,15 @@ function saveEditedOrder() {
         return;
     }
     
-    // Обновляем заказ
     orders[orderIndex] = {
         ...orders[orderIndex],
         ...formData,
         deliveryTime: formData.deliveryType === 'now' ? null : formData.deliveryTime
     };
     
-    // Сохраняем в хранилище
     if (saveOrdersToStorage()) {
-        // Закрываем модальное окно
         closeAllModals();
-        
-        // Показываем уведомление
         showNotification('Заказ успешно изменён', 'success');
-        
-        // Обновляем список заказов
         loadOrders();
     }
 }
@@ -551,11 +671,9 @@ function openDeleteModal(order) {
     const modal = document.getElementById('delete-order-modal');
     if (!modal) return;
     
-    // Заполняем данные
     document.getElementById('delete-order-id').value = order.id;
     document.getElementById('delete-order-number').textContent = `#${order.orderNumber}`;
     
-    // Показываем модальное окно
     modal.classList.add('active');
 }
 
@@ -564,25 +682,17 @@ function deleteOrder() {
     const orderId = document.getElementById('delete-order-id').value;
     if (!orderId) return;
     
-    // Находим индекс заказа
     const orderIndex = orders.findIndex(o => o.id === orderId);
     if (orderIndex === -1) {
         showNotification('Заказ не найден', 'error');
         return;
     }
     
-    // Удаляем заказ
     orders.splice(orderIndex, 1);
     
-    // Сохраняем в хранилище
     if (saveOrdersToStorage()) {
-        // Закрываем модальное окно
         closeAllModals();
-        
-        // Показываем уведомление
         showNotification('Заказ успешно удалён', 'success');
-        
-        // Обновляем список заказов
         loadOrders();
     }
 }
@@ -610,10 +720,8 @@ function showLoading(show) {
 
 // Показать уведомление
 function showNotification(message, type = 'info') {
-    // Удаляем старые уведомления
     document.querySelectorAll('.notification').forEach(el => el.remove());
     
-    // Иконка для типа уведомления
     const icons = {
         success: 'bi-check-circle-fill',
         error: 'bi-x-circle-fill',
@@ -621,12 +729,10 @@ function showNotification(message, type = 'info') {
         warning: 'bi-exclamation-triangle-fill'
     };
     
-    // Цвет фона
     const bgColor = type === 'success' ? '#4CAF50' : 
                    type === 'error' ? '#f44336' : 
                    type === 'warning' ? '#ff9800' : '#2196F3';
     
-    // Создаем уведомление
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.innerHTML = `
@@ -636,7 +742,6 @@ function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
-    // Автоматически удаляем через 5 секунд
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -644,26 +749,119 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// Добавляем стили для анимаций, если их нет
-if (!document.querySelector('#orders-animation-styles')) {
+// ФУНКЦИЯ ДЛЯ ФИКСА СУЩЕСТВУЮЩИХ ЗАКАЗОВ
+function fixExistingOrdersStructure() {
+    console.log('🛠️ Проверяем и фиксим структуру существующих заказов...');
+    
+    const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY);
+    if (!savedOrders) return;
+    
+    try {
+        let existingOrders = JSON.parse(savedOrders);
+        let fixedCount = 0;
+        
+        existingOrders = existingOrders.map(order => {
+            // Если заказ имеет комбо в отдельном поле, но его нет в dishes
+            if (order.combo && order.combo.name && (!order.dishes || !Array.isArray(order.dishes))) {
+                console.log(`🔧 Фиксим заказ №${order.orderNumber} с комбо "${order.combo.name}"`);
+                
+                // Создаем массив dishes если его нет
+                if (!order.dishes) {
+                    order.dishes = [];
+                }
+                
+                // НЕ добавляем комбо в dishes - оставляем его отдельно
+                // Это важно: комбо должен остаться в поле combo
+                fixedCount++;
+            }
+            
+            return order;
+        });
+        
+        if (fixedCount > 0) {
+            localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(existingOrders));
+            console.log(`✅ Исправлено ${fixedCount} заказов`);
+        }
+    } catch (error) {
+        console.error('❌ Ошибка при фиксации заказов:', error);
+    }
+}
+
+// Проверяем что в localStorage
+function debugLocalStorage() {
+    console.log('🔍 Отладочная информация о localStorage:');
+    
+    const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY);
+    if (savedOrders) {
+        try {
+            const orders = JSON.parse(savedOrders);
+            console.log(`Всего заказов: ${orders.length}`);
+            
+            orders.forEach((order, i) => {
+                console.group(`Заказ ${i + 1} (№${order.orderNumber}):`);
+                console.log('ID:', order.id);
+                console.log('Есть поле combo:', !!order.combo);
+                console.log('Название комбо:', order.combo?.name || 'нет');
+                console.log('Цена комбо:', order.combo?.price || 0);
+                console.log('Количество комбо:', order.combo?.quantity || 0);
+                console.log('Блюда (dishes):', order.dishes?.length || 0, 'шт');
+                if (order.dishes) {
+                    order.dishes.forEach((dish, j) => {
+                        console.log(`  ${j + 1}. ${dish.name} (x${dish.quantity}) - ${dish.price}₽`);
+                    });
+                }
+                console.log('Общая сумма:', order.total, '₽');
+                console.groupEnd();
+            });
+        } catch (error) {
+            console.error('Ошибка парсинга заказов:', error);
+        }
+    } else {
+        console.log('Нет сохраненных заказов');
+    }
+}
+
+// Добавляем стили для комбо
+if (!document.querySelector('#orders-combo-styles')) {
     const style = document.createElement('style');
-    style.id = 'orders-animation-styles';
+    style.id = 'orders-combo-styles';
     style.textContent = `
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .combo-item {
+            background: #fff3e0 !important;
+            border-left: 4px solid #ff6347 !important;
+            padding: 10px !important;
+            margin-bottom: 10px !important;
+            border-radius: 6px !important;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .dish-item.combo-item {
+            background: #fff8e1 !important;
+            border: 1px solid #ffecb3 !important;
+            border-left: 4px solid #ff6347 !important;
+        }
+        
+        .orders-list .combo-item {
+            background: #fff8e1;
+            padding: 8px 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            border: 1px solid #ffecb3;
+        }
+        
+        .orders-list .combo-item strong {
+            color: #ff6347;
+        }
+        
+        .orders-list .combo-item small {
+            color: #666;
+            font-size: 12px;
         }
     `;
     document.head.appendChild(style);
 }
+
+// Запускаем фикс и отладку при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    fixExistingOrdersStructure();
+    debugLocalStorage();
+});

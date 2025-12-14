@@ -213,7 +213,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary close-modal">Отмена</button>
-                    <button type="button" class="btn-danger" id="confirm-delete">
+                <button type="button" class="btn-danger" id="confirm-delete">
                     <i class="bi bi-trash"></i> Удалить
                 </button>
             </div>
@@ -224,7 +224,47 @@
         <p>&copy; 2025 Food Delivery Service. Все права защищены.</p>
     </footer>
 
+    <!-- ПОДКЛЮЧЕНИЕ JS ФАЙЛОВ -->
     <script src="dishes.js"></script>
     <script src="orders.js"></script>
+    
+    <!-- Дополнительный inline скрипт для инициализации -->
+    <script>
+        // Дополнительный скрипт для проверки загрузки
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ orders.html полностью загружен');
+            
+            // Проверяем наличие элементов
+            const checkElements = [
+                'orders-loading',
+                'orders-list',
+                'no-orders',
+                'search-orders',
+                'refresh-orders'
+            ];
+            
+            checkElements.forEach(id => {
+                const element = document.getElementById(id);
+                console.log(`${element ? '✅' : '❌'} Элемент #${id}: ${element ? 'найден' : 'не найден'}`);
+            });
+            
+            // Быстрая проверка localStorage
+            try {
+                const ordersCount = JSON.parse(localStorage.getItem('food_delivery_orders'))?.length || 0;
+                console.log(`📊 В localStorage: ${ordersCount} заказов`);
+            } catch (error) {
+                console.warn('⚠️ Ошибка при чтении localStorage:', error);
+            }
+        });
+        
+        // Обработчик ошибок загрузки изображений
+        document.addEventListener('error', function(e) {
+            if (e.target.tagName === 'IMG') {
+                console.warn(`⚠️ Не удалось загрузить изображение: ${e.target.src}`);
+                // Можно установить fallback изображение
+                e.target.src = 'https://via.placeholder.com/80x80/FF6347/FFFFFF?text=Заказ';
+            }
+        }, true);
+    </script>
 </body>
 </html>

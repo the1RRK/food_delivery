@@ -1,4 +1,4 @@
-// checkout-script.js - полностью рабочий скрипт для страницы "Оформить заказ"
+// checkout-script.js - полностью рабочий скрипт для страницы "Оформить заказ" (ИСПРАВЛЕННЫЙ)
 
 // Ключи для хранения в localStorage
 const ORDER_STORAGE_KEY = 'food_delivery_order';
@@ -65,10 +65,8 @@ function removeDishFromOrder(category, identifier) {
         console.log('🗑️ Удаление:', category, identifier);
         
         if (category === 'combo') {
-            // Удаляем комбо
             savedOrder.combo = null;
         } else {
-            // Удаляем отдельное блюдо
             if (!savedOrder.dishes || savedOrder.dishes.length === 0) return;
             
             const dishIndex = savedOrder.dishes.findIndex(dish => 
@@ -80,7 +78,6 @@ function removeDishFromOrder(category, identifier) {
             }
         }
         
-        // Проверяем, остались ли блюда
         const hasCombo = savedOrder.combo !== null;
         const hasDishes = savedOrder.dishes && savedOrder.dishes.length > 0;
         
@@ -92,7 +89,6 @@ function removeDishFromOrder(category, identifier) {
             console.log('💾 Заказ обновлен в localStorage');
         }
         
-        // Перезагружаем отображение
         loadAndDisplayOrder();
         
     } catch (error) {
@@ -110,12 +106,10 @@ function updateDishQuantity(identifier, newQuantity, isCombo = false) {
         console.log('🔄 Изменение количества:', identifier, newQuantity, isCombo);
         
         if (isCombo) {
-            // Обновляем количество комбо
             if (savedOrder.combo && savedOrder.combo.name === identifier) {
                 savedOrder.combo.quantity = newQuantity;
             }
         } else {
-            // Обновляем количество отдельного блюда
             const dish = savedOrder.dishes.find(d => d.keyword === identifier);
             if (dish) {
                 dish.quantity = newQuantity;
@@ -125,7 +119,6 @@ function updateDishQuantity(identifier, newQuantity, isCombo = false) {
         localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(savedOrder));
         console.log('✅ Количество обновлено в localStorage');
         
-        // Перезагружаем отображение
         loadAndDisplayOrder();
         
     } catch (error) {
@@ -139,13 +132,11 @@ async function loadAndDisplayOrder() {
     try {
         console.log('🔄 Загрузка и отображение заказа...');
         
-        // Ждем загрузки блюд (если функция есть)
         if (typeof loadDishes === 'function') {
             console.log('🍽️ Загружаем блюда...');
             await loadDishes();
         }
         
-        // Загружаем заказ из localStorage
         const savedOrder = loadOrderFromLocalStorage();
         
         if (!savedOrder || (!savedOrder.combo && (!savedOrder.dishes || savedOrder.dishes.length === 0))) {
@@ -156,7 +147,6 @@ async function loadAndDisplayOrder() {
         
         console.log('✅ Отображаем заказ:', savedOrder);
         
-        // Отображаем заказ
         displayOrderItems(savedOrder);
         
     } catch (error) {
@@ -206,7 +196,6 @@ function displayOrderItems(savedOrder) {
         return;
     }
     
-    // Очищаем и показываем контейнер
     orderItemsGrid.innerHTML = '';
     orderItemsGrid.style.display = 'flex';
     orderItemsGrid.style.flexDirection = 'column';
@@ -220,7 +209,7 @@ function displayOrderItems(savedOrder) {
     let totalItems = 0;
     let orderDishes = [];
     
-    // Отображаем комбо если есть
+    // ГЛАВНОЕ ИСПРАВЛЕНИЕ: СОХРАНЯЕМ КОМБО ОТДЕЛЬНО
     if (savedOrder.combo) {
         console.log('📦 Добавляем комбо в отображение:', savedOrder.combo);
         const comboCard = createComboCard(savedOrder.combo);
@@ -230,23 +219,17 @@ function displayOrderItems(savedOrder) {
         totalPrice += comboTotal;
         totalItems += comboQuantity;
         
-        // Добавляем комбо в список блюд для сохранения
-        if (window.lunchCombos) {
-            const combo = window.lunchCombos.find(c => c.name === savedOrder.combo.name);
-            if (combo) {
-                // Добавляем каждое блюдо из комбо
-                combo.dishes.forEach(dishItem => {
-                    const dish = window.dishes.find(d => d.keyword === dishItem.keyword);
-                    if (dish) {
-                        orderDishes.push({
-                            name: dish.name,
-                            price: dish.price,
-                            quantity: comboQuantity
-                        });
-                    }
-                });
-            }
-        }
+        // Комбо сохраняем отдельно (не в массив dishes)
+        window.currentOrderCombo = {
+            name: savedOrder.combo.name,
+            description: savedOrder.combo.description,
+            price: savedOrder.combo.price,
+            quantity: comboQuantity,
+            total: comboTotal,
+            dishes: savedOrder.combo.dishes || []
+        };
+    } else {
+        window.currentOrderCombo = null;
     }
     
     // Отображаем отдельные блюда если есть
@@ -287,6 +270,12 @@ function displayOrderItems(savedOrder) {
     window.currentOrderTotal = totalPrice;
     
     console.log(`✅ Отображено заказов: ${totalItems} позиций`);
+    console.log('📊 Структура для сохранения:', {
+        hasCombo: !!window.currentOrderCombo,
+        comboName: window.currentOrderCombo?.name,
+        dishesCount: window.currentOrderDishes.length,
+        total: window.currentOrderTotal
+    });
 }
 
 // Создать карточку блюда
@@ -297,7 +286,6 @@ function createOrderDishCard(dishData) {
     const dishCard = document.createElement('div');
     dishCard.className = 'order-dish-card';
     
-    // Проверяем URL изображения
     let imageUrl = dishData.image;
     if (!imageUrl || imageUrl.includes('undefined') || imageUrl.includes('null')) {
         imageUrl = 'https://via.placeholder.com/80x80/FFA726/FFFFFF?text=Блюдо';
@@ -325,7 +313,6 @@ function createOrderDishCard(dishData) {
         </button>
     `;
     
-    // Обработчик удаления
     const removeBtn = dishCard.querySelector('.remove-btn');
     removeBtn.addEventListener('click', function() {
         if (confirm(`Удалить "${dishData.name}" из заказа?`)) {
@@ -333,7 +320,6 @@ function createOrderDishCard(dishData) {
         }
     });
     
-    // Обработчики изменения количества
     const minusBtn = dishCard.querySelector('.minus-btn');
     const plusBtn = dishCard.querySelector('.plus-btn');
     
@@ -360,10 +346,8 @@ function createComboCard(comboData) {
     const comboCard = document.createElement('div');
     comboCard.className = 'order-dish-card combo-card';
     
-    // Находим изображение для комбо
     let imageUrl = 'https://via.placeholder.com/80x80/FFA726/FFFFFF?text=Комбо';
     
-    // Пробуем найти первое изображение из блюд в комбо
     if (window.dishes && comboData.dishes && comboData.dishes.length > 0) {
         const firstDishKeyword = comboData.dishes[0].keyword;
         const firstDish = window.dishes.find(d => d.keyword === firstDishKeyword);
@@ -376,7 +360,7 @@ function createComboCard(comboData) {
         <img src="${imageUrl}" alt="${comboData.name}" loading="lazy"
              onerror="this.src='https://via.placeholder.com/80x80/FFA726/FFFFFF?text=Комбо'">
         <div class="dish-info">
-            <p class="name">${comboData.name} (x${quantity})</p>
+            <p class="name">🍱 ${comboData.name} (x${quantity})</p>
             <p class="description">${comboData.description || 'Комплексный обед'}</p>
             <p class="count">Комбо набор</p>
             <div class="quantity-controls" style="margin-top: 8px;">
@@ -391,7 +375,6 @@ function createComboCard(comboData) {
         </button>
     `;
     
-    // Обработчик удаления
     const removeBtn = comboCard.querySelector('.remove-btn');
     removeBtn.addEventListener('click', function() {
         const comboName = this.getAttribute('data-name');
@@ -400,7 +383,6 @@ function createComboCard(comboData) {
         }
     });
     
-    // Обработчики изменения количества
     const minusBtn = comboCard.querySelector('.minus-btn');
     const plusBtn = comboCard.querySelector('.plus-btn');
     
@@ -442,9 +424,11 @@ function waitForDishes() {
     });
 }
 
-// Сохранить заказ в историю
+// СОХРАНЕНИЕ ЗАКАЗА В ИСТОРИЮ - ГЛАВНОЕ ИСПРАВЛЕНИЕ!
 function saveOrderToHistory(orderData) {
     try {
+        console.log('💾 Сохранение заказа в историю...');
+        
         // Загружаем существующие заказы
         const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY);
         let orders = savedOrders ? JSON.parse(savedOrders) : [];
@@ -453,6 +437,15 @@ function saveOrderToHistory(orderData) {
         const nextOrderNumber = orders.length > 0 
             ? Math.max(...orders.map(o => o.orderNumber)) + 1 
             : 1;
+        
+        // ВАЖНО: Сохраняем комбо отдельно, а не в массиве dishes
+        const comboForSave = window.currentOrderCombo ? {
+            name: window.currentOrderCombo.name,
+            description: window.currentOrderCombo.description,
+            price: window.currentOrderCombo.price,
+            quantity: window.currentOrderCombo.quantity,
+            dishes: window.currentOrderCombo.dishes || []
+        } : null;
         
         // Формируем полный объект заказа
         const newOrder = {
@@ -463,7 +456,8 @@ function saveOrderToHistory(orderData) {
             phone: orderData.phone,
             email: orderData.email,
             address: orderData.address,
-            dishes: window.currentOrderDishes || [],
+            combo: comboForSave, // КОМБО СОХРАНЯЕМ ОТДЕЛЬНО!
+            dishes: window.currentOrderDishes || [], // Обычные блюда
             total: window.currentOrderTotal || 0,
             deliveryType: orderData.deliveryTime,
             deliveryTime: orderData.deliveryTime === 'later' ? orderData.deliveryTimeValue : null,
@@ -473,6 +467,15 @@ function saveOrderToHistory(orderData) {
             updatedAt: new Date().toISOString()
         };
         
+        console.log('📝 Сохраняем заказ со структурой:', {
+            hasCombo: !!newOrder.combo,
+            comboName: newOrder.combo?.name,
+            comboPrice: newOrder.combo?.price,
+            comboQuantity: newOrder.combo?.quantity,
+            dishesCount: newOrder.dishes.length,
+            total: newOrder.total
+        });
+        
         // Добавляем заказ в начало массива
         orders.unshift(newOrder);
         
@@ -480,25 +483,35 @@ function saveOrderToHistory(orderData) {
         localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
         
         console.log('✅ Заказ сохранен в историю:', newOrder);
+        
+        // Показываем уведомление с деталями
+        const comboInfo = newOrder.combo ? 
+            `Комбо: ${newOrder.combo.name} (${newOrder.combo.price}₽ × ${newOrder.combo.quantity})<br>` : '';
+        const dishesInfo = newOrder.dishes.length > 0 ? 
+            `Доп. блюда: ${newOrder.dishes.length} шт<br>` : '';
+        
+        showNotification(
+            `Заказ №${newOrder.orderNumber} оформлен!<br>Сумма: ${newOrder.total}₽`,
+            'success'
+        );
+        
         return newOrder;
         
     } catch (error) {
         console.error('❌ Ошибка при сохранении заказа в историю:', error);
+        showNotification('Ошибка при сохранении заказа', 'error');
         return null;
     }
 }
 
 // Показать уведомление
 function showNotification(message, type = 'info') {
-    // Удаляем старые уведомления
     const oldNotifications = document.querySelectorAll('.custom-notification');
     oldNotifications.forEach(n => n.remove());
     
-    // Создаем уведомление
     const notification = document.createElement('div');
     notification.className = 'custom-notification';
     
-    // Цвет фона
     const bgColor = type === 'success' ? '#4CAF50' : 
                    type === 'error' ? '#f44336' : 
                    type === 'warning' ? '#ff9800' : '#2196F3';
@@ -522,7 +535,6 @@ function showNotification(message, type = 'info') {
         </div>
     `;
     
-    // Добавляем стили для анимации, если их нет
     if (!document.querySelector('#notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -543,7 +555,6 @@ function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
-    // Удаляем уведомление через 5 секунд
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -655,7 +666,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                             const successMessage = `
                                 🎉 Заказ успешно оформлен!
                                 
-                                Сумма заказа: ${window.currentOrderTotal}₽
+                                Номер заказа: ${savedOrder.orderNumber}
+                                Сумма заказа: ${savedOrder.total}₽
                                 Время доставки: ${deliveryTime === 'now' ? 'Как можно скорее' : deliveryTimeValue}
                                 
                                 Вы можете просмотреть ваш заказ в разделе "Мои заказы".
@@ -702,5 +714,36 @@ document.addEventListener('DOMContentLoaded', async function() {
         showEmptyOrderMessage();
     }
 });
+
+// Функция для отладки - показывает структуру сохраненных заказов
+function debugOrdersStructure() {
+    console.log('🔍 Отладка структуры заказов:');
+    
+    const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY);
+    if (savedOrders) {
+        try {
+            const orders = JSON.parse(savedOrders);
+            console.log(`Всего заказов в истории: ${orders.length}`);
+            
+            orders.forEach((order, i) => {
+                console.group(`Заказ ${i + 1} (№${order.orderNumber}):`);
+                console.log('Есть поле "combo":', !!order.combo);
+                console.log('Название комбо:', order.combo?.name || 'нет');
+                console.log('Цена комбо:', order.combo?.price || 0);
+                console.log('Количество комбо:', order.combo?.quantity || 0);
+                console.log('Блюда (dishes):', order.dishes?.length || 0, 'шт');
+                console.log('Общая сумма:', order.total, '₽');
+                console.groupEnd();
+            });
+        } catch (error) {
+            console.error('Ошибка парсинга заказов:', error);
+        }
+    } else {
+        console.log('Нет сохраненных заказов');
+    }
+}
+
+// Автоматически вызываем отладку при загрузке страницы
+document.addEventListener('DOMContentLoaded', debugOrdersStructure);
 
 console.log('🛠️ Checkout script загружен и готов к работе');
